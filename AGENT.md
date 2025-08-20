@@ -197,7 +197,44 @@ npm run time:report     # Generate time breakdown report
 
 ---
 
-## 🔧 Development Workflow
+# Git Workflow
+
+## Branches
+- `main` - Production (auto-deploys Railway) - PROTECTED
+- `feature/*` - Development branches
+
+## 🚫 NEVER DO DIRECT MERGES
+**ALWAYS use Pull Requests. NEVER merge directly into main.**
+
+## ✅ CORRECT WORKFLOW
+```bash
+# 1. Start from latest main
+git checkout main
+git pull origin main
+git checkout -b feature/your-feature-name
+
+# 2. Make changes and commit
+git add .
+git commit -m "feat: description"
+git push origin feature/your-feature-name
+
+# 3. Create PR to main (NEVER merge directly!)
+gh pr create --base main --title "feat: description" --body "Summary of changes"
+
+# 4. After PR is tested and approved, you can merge into main and it will auto deploy to production
+gh pr merge
+
+# 6. Validate merge worked on production
+```
+
+## 🎯 PR RULES
+- **ALL changes** must go through PRs - no exceptions
+- **Feature branches** → PR to `main`
+- **NEVER** merge directly with `git merge` commands
+- **NEVER** push directly to main
+- **ALWAYS** create feature branches from latest main
+
+**Deployment:** main auto-deploy on merge via Railway
 
 ### Git Standards
 ```bash
