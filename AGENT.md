@@ -199,6 +199,25 @@ npm run time:report     # Generate time breakdown report
 
 # Git Workflow
 
+## Keeping Your Fork Updated
+
+Since this project is forked from `aceable/ai-boilerplate`, you should periodically sync with upstream changes:
+
+```bash
+# One-time setup: Add upstream remote
+git remote add upstream https://github.com/aceable/ai-boilerplate.git
+
+# Sync with upstream (do this periodically)
+git fetch upstream
+git checkout main
+git merge upstream/main
+
+# Push updates to your fork
+git push origin main
+```
+
+**Important:** Always review changes before merging, especially if you've customized the boilerplate.
+
 ## Branches
 - `main` - Production (auto-deploys Railway) - PROTECTED
 - `feature/*` - Development branches
