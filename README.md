@@ -1,4 +1,4 @@
-# Aceable Vibing Boilerplate
+# atx-protest Vibing Boilerplate
 
 ## Initial Install
 
@@ -8,7 +8,7 @@
 4. Open the IDE terminal and run
 
 ```shell
-    gh repo fork https://github.com/aceable/ai-boilerplate.git --clone
+    gh repo fork https://github.com/atx-protest/ai-boilerplate.git --clone
     mv ai-boilerplate/* ai-boilerplate/.* .
     rmdir ai-boilerplate
 ```
@@ -116,7 +116,7 @@ Each developer should work with their own database branch to avoid conflicts:
 npm install -g neonctl
 
 # Create personal database branch
-neonctl auth  # Login with Aceable credentials
+neonctl auth  # Login with atx-protest credentials
 npm run db:branch:create your-name-dev
 
 # Update .env.development.local with your branch's DATABASE_URL

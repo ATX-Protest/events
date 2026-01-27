@@ -1,21 +1,30 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
-const isPublicRoute = createRouteMatcher(['/sign-in(.*)'])
+// For MVP, all routes are public - no login required to view content
+// Only /volunteer requires authentication (for signing up)
+const isPublicRoute = createRouteMatcher([
+  '/',
+  '/sign-in(.*)',
+  '/protests(.*)',
+  '/resources(.*)',
+  '/updates(.*)',
+  '/how-it-works(.*)',
+]);
 
 export default clerkMiddleware(async (auth, request) => {
-  console.log(`[MIDDLEWARE] ${request.method} ${request.nextUrl.pathname} - isPublic: ${isPublicRoute(request)}`);
-  
   // Bypass authentication for Playwright testing (development only)
-  if (process.env.NODE_ENV === 'development' && process.env.PLAYWRIGHT_TESTING === 'true') {
-    console.log(`[MIDDLEWARE] Bypassing auth for Playwright testing: ${request.nextUrl.pathname}`);
+  if (
+    process.env.NODE_ENV === 'development' &&
+    process.env['PLAYWRIGHT_TESTING'] === 'true'
+  ) {
     return;
   }
-  
+
+  // Only protect non-public routes (currently just /volunteer)
   if (!isPublicRoute(request)) {
-    console.log(`[MIDDLEWARE] Protecting route: ${request.nextUrl.pathname}`);
     await auth.protect();
   }
-})
+});
 
 export const config = {
   matcher: [
@@ -24,4 +33,4 @@ export const config = {
     // Always run for API routes
     '/(api|trpc)(.*)',
   ],
-}
+};

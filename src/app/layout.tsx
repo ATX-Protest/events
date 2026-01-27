@@ -10,8 +10,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Jarvis AI',
-  description: 'Endless AI Experimentation',
+  title: 'ATX Protests',
+  description: 'Organize and participate in Austin, TX protests. Find upcoming events, know your rights, and stay safe.',
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

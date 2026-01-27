@@ -219,11 +219,11 @@ npm run time:report     # Generate time breakdown report
 
 ## Keeping Your Fork Updated
 
-Since this project is forked from `aceable/ai-boilerplate`, you should periodically sync with upstream changes:
+Since this project is forked from `atx-protest/ai-boilerplate`, you should periodically sync with upstream changes:
 
 ```bash
 # One-time setup: Add upstream remote
-git remote add upstream https://github.com/aceable/ai-boilerplate.git
+git remote add upstream https://github.com/atx-protest/ai-boilerplate.git
 
 # Sync with upstream (do this periodically)
 git fetch upstream

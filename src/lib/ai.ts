@@ -19,7 +19,7 @@ export async function generateWithAI(prompt: string, systemMessage?: string) {
       { role: 'user' as const, content: prompt },
     ],
   });
-  
+
   return text;
 }
 
@@ -35,7 +35,7 @@ export const GENERATION_CONFIG = {
 
 // Modern 2025 approach: Type-safe object generation with Zod schemas
 export async function generateTypedObject<T>(
-  schema: z.ZodSchema<T>,
+  schema: z.ZodType<T>,
   prompt: string,
   systemMessage?: string
 ): Promise<T> {
@@ -44,8 +44,9 @@ export async function generateTypedObject<T>(
     temperature: aiConfig.temperature,
     schema: schema,
     prompt: systemMessage ? `${systemMessage}\n\n${prompt}` : prompt,
+    output: 'object',
   });
-  
+
   return object;
 }
 
@@ -59,6 +60,6 @@ export async function makeOpenAIRequest(messages: Array<{ role: string; content:
       content: msg.content,
     })),
   });
-  
+
   return text;
 }

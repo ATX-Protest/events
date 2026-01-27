@@ -2,14 +2,21 @@
 
 import { AppSidebar } from '@/components/app-sidebar';
 import Header from '@/components/header';
+import { MobileNav } from '@/components/layouts/mobile-nav';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { usePathname } from 'next/navigation';
 
-export default function ClientLayout({ children, isSignedIn }: { children: React.ReactNode; isSignedIn: boolean }) {
+interface ClientLayoutProps {
+  children: React.ReactNode;
+  isSignedIn: boolean;
+}
+
+export default function ClientLayout({ children, isSignedIn: _isSignedIn }: ClientLayoutProps) {
   const pathname = usePathname();
 
-  // Hide if user not signed in, or on /sign-in
-  const hideLayout = !isSignedIn || pathname.startsWith('/sign-in');
+  // Only hide layout on sign-in page
+  // For MVP, we show the layout for all public routes
+  const hideLayout = pathname.startsWith('/sign-in');
 
   return hideLayout ? (
     children
@@ -18,8 +25,11 @@ export default function ClientLayout({ children, isSignedIn }: { children: React
       <Header />
       <AppSidebar />
       <SidebarInset>
-        <main className="w-full max-w-[1920px] mx-auto p-4 md:p-6">{children}</main>
+        <main className="w-full max-w-[1920px] mx-auto p-4 md:p-6 pb-20 md:pb-6">
+          {children}
+        </main>
       </SidebarInset>
+      <MobileNav />
     </SidebarProvider>
   );
 }
