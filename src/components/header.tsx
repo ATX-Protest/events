@@ -1,4 +1,3 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
 import { Megaphone } from 'lucide-react';
 import Link from 'next/link';
 
@@ -19,13 +18,9 @@ export default function Header() {
           </Link>
         </div>
       </div>
+      {/* MVP: Auth UI hidden - will be added back when Clerk is configured */}
       <div className="ml-auto flex items-center gap-4">
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
+        {/* Sign in button will go here */}
       </div>
     </header>
   );

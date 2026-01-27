@@ -1,7 +1,5 @@
 import { MyThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
-import { ClerkProvider } from '@clerk/nextjs';
-import { auth } from '@clerk/nextjs/server';
 import { Inter } from 'next/font/google';
 import type React from 'react';
 import ClientLayout from './client-layout';
@@ -14,20 +12,18 @@ export const metadata = {
   description: 'Organize and participate in Austin, TX protests. Find upcoming events, know your rights, and stay safe.',
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { userId } = await auth();
-  const isSignedIn = !!userId;
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // MVP: No auth - all users treated as signed out
+  const isSignedIn = false;
 
   return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body className={inter.className}>
-          <MyThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            <ClientLayout isSignedIn={isSignedIn}>{children}</ClientLayout>
-            <Toaster />
-          </MyThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <MyThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ClientLayout isSignedIn={isSignedIn}>{children}</ClientLayout>
+          <Toaster />
+        </MyThemeProvider>
+      </body>
+    </html>
   );
 }
