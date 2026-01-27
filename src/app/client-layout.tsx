@@ -1,9 +1,7 @@
 'use client';
 
-import { AppSidebar } from '@/components/app-sidebar';
+import { Footer } from '@/components/footer';
 import Header from '@/components/header';
-import { MobileNav } from '@/components/layouts/mobile-nav';
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { usePathname } from 'next/navigation';
 
 interface ClientLayoutProps {
@@ -15,21 +13,17 @@ export default function ClientLayout({ children, isSignedIn: _isSignedIn }: Clie
   const pathname = usePathname();
 
   // Only hide layout on sign-in page
-  // For MVP, we show the layout for all public routes
   const hideLayout = pathname.startsWith('/sign-in');
 
   return hideLayout ? (
-    children
+    <>{children}</>
   ) : (
-    <SidebarProvider>
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <AppSidebar />
-      <SidebarInset>
-        <main className="w-full max-w-[1920px] mx-auto p-4 md:p-6 pb-20 md:pb-6">
-          {children}
-        </main>
-      </SidebarInset>
-      <MobileNav />
-    </SidebarProvider>
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 py-6 md:px-6 md:py-8">
+        {children}
+      </main>
+      <Footer />
+    </div>
   );
 }
