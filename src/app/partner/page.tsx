@@ -4,6 +4,8 @@ import type { Metadata } from 'next';
 import { Handshake, CheckCircle, Users, Zap } from 'lucide-react';
 import Link from 'next/link';
 
+const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.com';
+
 export const metadata: Metadata = {
   title: 'Become a Partner Organization',
   description:
@@ -14,7 +16,7 @@ export const metadata: Metadata = {
       'Partner with ATX Protests for expedited event approval, increased visibility, and trusted badge recognition.',
   },
   alternates: {
-    canonical: '/partner',
+    canonical: `${baseUrl}/partner`,
   },
 };
 

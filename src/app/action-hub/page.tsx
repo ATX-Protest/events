@@ -4,8 +4,10 @@ import type { Metadata } from 'next';
 import { Compass, Heart, Megaphone, Users } from 'lucide-react';
 import Link from 'next/link';
 
+const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.com';
+
 export const metadata: Metadata = {
-  title: 'Take Action in Austin TX - Find & Share Events',
+  title: 'Take Action in Austin TX - Find & Share Protest Events',
   description:
     'Your central hub for taking action in Austin. Find protest events, share your own events, and sign up for alerts about volunteer opportunities.',
   openGraph: {
@@ -14,7 +16,7 @@ export const metadata: Metadata = {
       'Your central place for taking action and making a difference in Austin. Find events, share events, and get notified.',
   },
   alternates: {
-    canonical: '/action-hub',
+    canonical: `${baseUrl}/action-hub`,
   },
 };
 
@@ -29,7 +31,7 @@ export default function ActionHubPage() {
           </div>
         </div>
         <h1 className="text-3xl md:text-4xl font-bold mb-4">
-          Action Hub
+          Take Action: Austin Protests & Civic Events
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           Your central place for taking action and making a difference in Austin.

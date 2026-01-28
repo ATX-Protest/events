@@ -7,6 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import type { Metadata } from 'next';
 import { Handshake } from 'lucide-react';
 
+const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.com';
+
 export const metadata: Metadata = {
   title: 'Share an Event - Submit Your Protest or Civic Action',
   description:
@@ -17,7 +19,7 @@ export const metadata: Metadata = {
       'Submit your protest or civic action event to reach the Austin community. Easy submission process with trusted partner options.',
   },
   alternates: {
-    canonical: '/share-event',
+    canonical: `${baseUrl}/share-event`,
   },
 };
 

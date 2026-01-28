@@ -25,6 +25,8 @@ export function EventJsonLd({ protest, baseUrl }: EventJsonLdProps) {
     ? `${protest.date}T${parseTime(protest.endTime)}`
     : undefined;
 
+  const eventUrl = `${baseUrl}/events/${protest.id}`;
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Event',
@@ -50,11 +52,23 @@ export function EventJsonLd({ protest, baseUrl }: EventJsonLdProps) {
       '@type': 'Organization',
       name: protest.organizer,
       ...(protest.organizerContact && { email: protest.organizerContact }),
+      ...(protest.externalUrl && { url: protest.externalUrl }),
     },
     ...(protest.expectedAttendance && {
       maximumAttendeeCapacity: protest.expectedAttendance,
     }),
-    url: `${baseUrl}/#event-${protest.id}`,
+    ...(protest.imageUrl && {
+      image: protest.imageUrl,
+    }),
+    offers: {
+      '@type': 'Offer',
+      url: eventUrl,
+      price: '0',
+      priceCurrency: 'USD',
+      availability: 'https://schema.org/InStock',
+      validFrom: new Date().toISOString(),
+    },
+    url: eventUrl,
     isAccessibleForFree: true,
   };
 
@@ -104,6 +118,120 @@ export function WebSiteJsonLd({ baseUrl }: WebSiteJsonLdProps) {
     '@type': 'WebSite',
     name: 'ATX Protests',
     url: baseUrl,
+    description:
+      'Find upcoming protests and rallies in Austin, TX. Your Austin protest calendar for marches, rallies, and civic actions.',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${baseUrl}/?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+interface BreadcrumbJsonLdProps {
+  items: BreadcrumbItem[];
+}
+
+export function BreadcrumbJsonLd({ items }: BreadcrumbJsonLdProps) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface FAQPageJsonLdProps {
+  faqs: FAQItem[];
+}
+
+export function FAQPageJsonLd({ faqs }: FAQPageJsonLdProps) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+interface ArticleJsonLdProps {
+  title: string;
+  description: string;
+  url: string;
+  datePublished: string;
+  dateModified?: string;
+  imageUrl?: string;
+}
+
+export function ArticleJsonLd({
+  title,
+  description,
+  url,
+  datePublished,
+  dateModified,
+  imageUrl,
+}: ArticleJsonLdProps) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description: description,
+    url: url,
+    datePublished: datePublished,
+    ...(dateModified && { dateModified }),
+    ...(imageUrl && { image: imageUrl }),
+    author: {
+      '@type': 'Organization',
+      name: 'ATX Protests',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'ATX Protests',
+    },
   };
 
   return (

@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 
+const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.com';
+
 export const metadata: Metadata = {
   title: 'Get Alerts - Protest & Volunteer Notifications',
   description:
@@ -10,7 +12,7 @@ export const metadata: Metadata = {
       'Stay informed about Austin protests and volunteer opportunities via SMS, email, or Signal notifications.',
   },
   alternates: {
-    canonical: '/get-alerts',
+    canonical: `${baseUrl}/get-alerts`,
   },
 };
 
