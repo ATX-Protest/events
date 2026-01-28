@@ -32,6 +32,7 @@ export default function Header() {
             <Link href="/" className="flex items-center" data-testid="header-logo">
               <span className="text-xl font-bold">ATX</span>
               <span className="text-xl font-bold text-primary ml-1">Protests</span>
+              <span className="ml-2 text-xs font-medium text-muted-foreground">(Coming Soon)</span>
             </Link>
           </div>
 

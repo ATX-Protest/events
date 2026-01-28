@@ -3,7 +3,7 @@ import type { Protest } from './types';
 export const protests: Protest[] = [
   {
     id: 'march-for-democracy-2024',
-    title: 'March for Democracy',
+    title: 'March for Democracy (Example)',
     description:
       'Join us for a peaceful march advocating for voting rights and electoral reform in Texas. We will march from the Capitol to City Hall, with speakers and community organizations along the route.',
     date: '2024-03-15',
@@ -34,7 +34,7 @@ export const protests: Protest[] = [
   },
   {
     id: 'climate-action-rally',
-    title: 'Climate Action Rally',
+    title: 'Climate Action Rally (Example)',
     description:
       'A rally calling for immediate climate action and environmental justice. Featured speakers include local scientists, activists, and affected community members.',
     date: '2024-03-22',
@@ -61,7 +61,7 @@ export const protests: Protest[] = [
   },
   {
     id: 'workers-rights-march',
-    title: "Workers' Rights March",
+    title: "Workers' Rights March (Example)",
     description:
       'Stand in solidarity with Austin workers demanding fair wages, safe working conditions, and the right to organize. March from Wooldridge Square to City Hall.',
     date: '2024-04-01',
@@ -90,7 +90,7 @@ export const protests: Protest[] = [
   },
   {
     id: 'healthcare-for-all-vigil',
-    title: 'Healthcare for All Vigil',
+    title: 'Healthcare for All Vigil (Example)',
     description:
       'A candlelight vigil honoring those who have suffered due to lack of healthcare access. Speakers will share stories and call for universal healthcare coverage.',
     date: '2024-04-10',
@@ -114,7 +114,7 @@ export const protests: Protest[] = [
   },
   {
     id: 'housing-justice-rally',
-    title: 'Housing Justice Rally',
+    title: 'Housing Justice Rally (Example)',
     description:
       'Rally against rising rents and displacement in Austin. Hear from tenants, housing advocates, and community organizations fighting for affordable housing.',
     date: '2024-04-20',
