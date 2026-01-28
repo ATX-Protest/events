@@ -9,7 +9,7 @@ import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.org';
+const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),

@@ -2,7 +2,7 @@ import { EventJsonLd } from '@/components/seo/json-ld';
 import { getUpcomingProtests } from '@/data/protests';
 import { HomePageClient } from './home-client';
 
-const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.org';
+const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.com';
 
 export default function HomePage() {
   // Server-side: Get protests for SEO (rendered in HTML)
