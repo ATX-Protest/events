@@ -21,8 +21,8 @@ npm run db:studio        # Open Drizzle Studio
 - `/` (home) - Event calendar and listings
 - `/events` - All events listing
 - `/events/[id]` - Individual event pages (slug-based IDs)
-- `/faq` - Resources & FAQ listing
-- `/faq/[slug]` - Individual articles (know-your-rights, etc.)
+- `/resources` - Resources & FAQ listing
+- `/resources/[slug]` - Individual articles (know-your-rights, etc.)
 - `/share-event`, `/get-alerts`, `/action-hub`, `/partner`
 
 **Key directories**:
@@ -36,7 +36,7 @@ npm run db:studio        # Open Drizzle Studio
 
 **Data files** (pre-database):
 - `src/data/protests.ts` - Event data with `getProtestById()`, `getUpcomingProtests()`
-- `src/data/faq-articles.ts` - FAQ content with `getFAQArticleBySlug()`, `getAllFAQArticles()`
+- `src/data/resources-articles.ts` - FAQ content with `getFAQArticleBySlug()`, `getAllFAQArticles()`
 
 ## Standards
 

@@ -1,6 +1,6 @@
 import { BreadcrumbJsonLd, FAQPageJsonLd } from '@/components/seo/json-ld';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getAllFAQArticles } from '@/data/faq-articles';
+import { getAllFAQArticles } from '@/data/resources';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Scale, Shield, ClipboardList, Gavel } from 'lucide-react';
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       'Essential resources for protesters in Austin. Know your rights, stay safe, and find legal support.',
   },
   alternates: {
-    canonical: `${baseUrl}/faq`,
+    canonical: `${baseUrl}/resources`,
   },
 };
 
@@ -43,7 +43,7 @@ export default function FAQPage() {
 
   const breadcrumbs = [
     { name: 'Home', url: baseUrl },
-    { name: 'Resources & FAQ', url: `${baseUrl}/faq` },
+    { name: 'Resources', url: `${baseUrl}/resources` },
   ];
 
   return (
@@ -51,7 +51,7 @@ export default function FAQPage() {
       <FAQPageJsonLd faqs={allFaqs} />
       <BreadcrumbJsonLd items={breadcrumbs} />
 
-      <div className="flex flex-col gap-8" data-testid="faq-page">
+      <div className="flex flex-col gap-8" data-testid="resources-page">
         <header className="space-y-4">
           <h1 className="text-3xl md:text-4xl font-bold">
             Protest Resources & FAQ
@@ -69,7 +69,7 @@ export default function FAQPage() {
               key={article.slug}
               className="hover:shadow-md transition-shadow"
             >
-              <Link href={`/faq/${article.slug}`}>
+              <Link href={`/resources/${article.slug}`}>
                 <CardHeader>
                   <div className="flex items-center gap-2 text-primary mb-2">
                     {categoryIcons[article.category]}

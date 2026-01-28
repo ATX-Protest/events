@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getUpcomingProtests } from '@/data/protests';
-import { getAllFAQArticles } from '@/data/faq-articles';
+import { getAllFAQArticles } from '@/data/resources';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.com';
@@ -17,7 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Get all FAQ articles
   const faqArticles = getAllFAQArticles();
   const faqEntries: MetadataRoute.Sitemap = faqArticles.map((article) => ({
-    url: `${baseUrl}/faq/${article.slug}`,
+    url: `${baseUrl}/resources/${article.slug}`,
     lastModified: new Date(article.updatedAt),
     changeFrequency: 'monthly' as const,
     priority: 0.8,
@@ -37,7 +37,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/faq`,
+      url: `${baseUrl}/resources`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,

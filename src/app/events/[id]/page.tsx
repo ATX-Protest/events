@@ -263,7 +263,7 @@ export default async function EventPage({ params }: EventPageProps) {
               <Link href="/get-alerts">Get Alerts</Link>
             </Button>
             <Button variant="outline" asChild>
-              <Link href="/faq/know-your-rights">Know Your Rights</Link>
+              <Link href="/resources/know-your-rights">Know Your Rights</Link>
             </Button>
           </div>
         </section>

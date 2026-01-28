@@ -26,16 +26,16 @@ test.describe('Smoke Tests - All Pages Load', () => {
     await expect(page.getByTestId('event-page')).toBeVisible();
   });
 
-  test('FAQ listing page loads', async ({ page }) => {
-    await page.goto('/faq');
+  test('resources listing page loads', async ({ page }) => {
+    await page.goto('/resources');
     await expect(page).toHaveTitle(/Protest Resources/);
-    await expect(page.getByTestId('faq-page')).toBeVisible();
+    await expect(page.getByTestId('resources-page')).toBeVisible();
   });
 
-  test('FAQ article page loads', async ({ page }) => {
-    await page.goto('/faq/know-your-rights');
+  test('resource article page loads', async ({ page }) => {
+    await page.goto('/resources/know-your-rights');
     await expect(page).toHaveTitle(/Know Your Rights/);
-    await expect(page.getByTestId('faq-article-page')).toBeVisible();
+    await expect(page.getByTestId('resource-article-page')).toBeVisible();
   });
 
   test('share event page loads', async ({ page }) => {
@@ -78,11 +78,11 @@ test.describe('Navigation', () => {
     await expect(page.getByTestId('event-page')).toBeVisible();
   });
 
-  test('can navigate from FAQ listing to article', async ({ page }) => {
-    await page.goto('/faq');
-    // Click on first FAQ article card
+  test('can navigate from resources listing to article', async ({ page }) => {
+    await page.goto('/resources');
+    // Click on first resource article card
     await page.getByRole('link', { name: /Know Your Rights/i }).click();
-    await expect(page.getByTestId('faq-article-page')).toBeVisible();
+    await expect(page.getByTestId('resource-article-page')).toBeVisible();
   });
 
   test('back button on event page returns to home', async ({ page }) => {
@@ -126,8 +126,8 @@ test.describe('SEO Elements', () => {
     expect(hasEventSchema).toBe(true);
   });
 
-  test('FAQ page has FAQPage schema', async ({ page }) => {
-    await page.goto('/faq');
+  test('resources page has FAQPage schema', async ({ page }) => {
+    await page.goto('/resources');
 
     const jsonLdScripts = await page.locator('script[type="application/ld+json"]').all();
     let hasFAQSchema = false;

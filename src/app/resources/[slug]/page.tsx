@@ -4,7 +4,7 @@ import {
   FAQPageJsonLd,
 } from '@/components/seo/json-ld';
 import { Button } from '@/components/ui/button';
-import { getAllFAQArticles, getFAQArticleBySlug } from '@/data/faq-articles';
+import { getAllFAQArticles, getFAQArticleBySlug } from '@/data/resources';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -43,10 +43,10 @@ export async function generateMetadata({
       title: `${article.title} | ATX Protests`,
       description: article.description,
       type: 'article',
-      url: `${baseUrl}/faq/${article.slug}`,
+      url: `${baseUrl}/resources/${article.slug}`,
     },
     alternates: {
-      canonical: `${baseUrl}/faq/${article.slug}`,
+      canonical: `${baseUrl}/resources/${article.slug}`,
     },
   };
 }
@@ -75,8 +75,8 @@ export default async function FAQArticlePage({ params }: FAQArticlePageProps) {
 
   const breadcrumbs = [
     { name: 'Home', url: baseUrl },
-    { name: 'Resources & FAQ', url: `${baseUrl}/faq` },
-    { name: article.title, url: `${baseUrl}/faq/${article.slug}` },
+    { name: 'Resources', url: `${baseUrl}/resources` },
+    { name: article.title, url: `${baseUrl}/resources/${article.slug}` },
   ];
 
   // Simple markdown to HTML conversion for basic formatting
@@ -168,18 +168,18 @@ export default async function FAQArticlePage({ params }: FAQArticlePageProps) {
       <ArticleJsonLd
         title={article.title}
         description={article.description}
-        url={`${baseUrl}/faq/${article.slug}`}
+        url={`${baseUrl}/resources/${article.slug}`}
         datePublished={article.createdAt}
         dateModified={article.updatedAt}
       />
       <FAQPageJsonLd faqs={article.faqs} />
       <BreadcrumbJsonLd items={breadcrumbs} />
 
-      <article className="flex flex-col gap-8" data-testid="faq-article-page">
+      <article className="flex flex-col gap-8" data-testid="resource-article-page">
         {/* Back link */}
         <div>
           <Button variant="ghost" size="sm" asChild className="-ml-2">
-            <Link href="/faq">
+            <Link href="/resources">
               <ChevronLeft className="h-4 w-4 mr-1" />
               Back to Resources
             </Link>
@@ -246,7 +246,7 @@ export default async function FAQArticlePage({ params }: FAQArticlePageProps) {
               .slice(0, 3)
               .map((related) => (
                 <Button key={related.slug} variant="outline" asChild>
-                  <Link href={`/faq/${related.slug}`}>{related.title}</Link>
+                  <Link href={`/resources/${related.slug}`}>{related.title}</Link>
                 </Button>
               ))}
           </div>
