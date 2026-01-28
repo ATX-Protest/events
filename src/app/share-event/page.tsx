@@ -4,7 +4,22 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import type { Metadata } from 'next';
 import { Handshake } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Share an Event - Submit Your Protest or Civic Action',
+  description:
+    'Submit your protest, rally, or civic action event to ATX Protests. Help the Austin community stay informed about upcoming demonstrations and activism opportunities.',
+  openGraph: {
+    title: 'Share an Event | ATX Protests',
+    description:
+      'Submit your protest or civic action event to reach the Austin community. Easy submission process with trusted partner options.',
+  },
+  alternates: {
+    canonical: '/share-event',
+  },
+};
 
 export default function ShareEventPage() {
   return (

@@ -1,7 +1,22 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { Metadata } from 'next';
 import { Compass, Heart, Megaphone, Users } from 'lucide-react';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Take Action in Austin TX - Find & Share Events',
+  description:
+    'Your central hub for taking action in Austin. Find protest events, share your own events, and sign up for alerts about volunteer opportunities.',
+  openGraph: {
+    title: 'Take Action in Austin TX | ATX Protests',
+    description:
+      'Your central place for taking action and making a difference in Austin. Find events, share events, and get notified.',
+  },
+  alternates: {
+    canonical: '/action-hub',
+  },
+};
 
 export default function ActionHubPage() {
   return (

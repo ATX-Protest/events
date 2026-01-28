@@ -1,7 +1,22 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { Metadata } from 'next';
 import { Handshake, CheckCircle, Users, Zap } from 'lucide-react';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Become a Partner Organization',
+  description:
+    'Partner with ATX Protests for expedited event approval, increased visibility, and trusted badge recognition. Help your organization reach more attendees in Austin.',
+  openGraph: {
+    title: 'Become a Partner | ATX Protests',
+    description:
+      'Partner with ATX Protests for expedited event approval, increased visibility, and trusted badge recognition.',
+  },
+  alternates: {
+    canonical: '/partner',
+  },
+};
 
 export default function PartnerPage() {
   return (

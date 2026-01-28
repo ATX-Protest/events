@@ -1,5 +1,7 @@
+import { OrganizationJsonLd, WebSiteJsonLd } from '@/components/seo/json-ld';
 import { MyThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
+import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import type React from 'react';
 import ClientLayout from './client-layout';
@@ -7,9 +9,68 @@ import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata = {
-  title: 'ATX Protests',
-  description: 'Organize and participate in Austin, TX protests. Find upcoming events, know your rights, and stay safe.',
+const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.org';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: 'Austin Protests & Rallies - Upcoming Events | ATX Protests',
+    template: '%s | ATX Protests',
+  },
+  description:
+    'Find upcoming protests and rallies in Austin, TX. Your Austin protest calendar for marches, rallies, and civic actions. Know your rights and stay safe.',
+  keywords: [
+    'austin protests',
+    'atx protests',
+    'protests in austin this weekend',
+    'upcoming rallies austin tx',
+    'austin protest calendar',
+    'austin demonstrations',
+    'austin marches',
+    'texas protests',
+  ],
+  authors: [{ name: 'ATX Protests' }],
+  creator: 'ATX Protests',
+  publisher: 'ATX Protests',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: baseUrl,
+    siteName: 'ATX Protests',
+    title: 'Austin Protests & Rallies - Upcoming Events | ATX Protests',
+    description:
+      'Find upcoming protests and rallies in Austin, TX. Your Austin protest calendar for marches, rallies, and civic actions.',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'ATX Protests - Find Upcoming Protests in Austin, TX',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Austin Protests & Rallies - Upcoming Events | ATX Protests',
+    description:
+      'Find upcoming protests and rallies in Austin, TX. Your protest calendar for marches and civic actions.',
+    images: ['/og-image.png'],
+  },
+  alternates: {
+    canonical: baseUrl,
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -18,6 +79,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <OrganizationJsonLd baseUrl={baseUrl} />
+        <WebSiteJsonLd baseUrl={baseUrl} />
+      </head>
       <body className={inter.className}>
         <MyThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ClientLayout isSignedIn={isSignedIn}>{children}</ClientLayout>

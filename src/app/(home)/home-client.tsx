@@ -2,23 +2,26 @@
 
 import { Calendar } from '@/components/features/calendar';
 import { Card, CardContent } from '@/components/ui/card';
-import { getUpcomingProtests } from '@/data/protests';
+import type { Protest } from '@/data/types';
 import { Calendar as CalendarIcon, Clock, MapPin, Megaphone } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
-export default function HomePage() {
-  const protests = getUpcomingProtests();
+interface HomePageClientProps {
+  initialProtests: Protest[];
+}
+
+export function HomePageClient({ initialProtests }: HomePageClientProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
-  const calendarEvents = protests.map((protest) => ({
+  const calendarEvents = initialProtests.map((protest) => ({
     date: protest.date,
     title: protest.title,
     id: protest.id,
   }));
 
   const filteredProtests = selectedDate
-    ? protests.filter((protest) => {
+    ? initialProtests.filter((protest) => {
         const protestDate = new Date(protest.date);
         return (
           protestDate.getDate() === selectedDate.getDate() &&
@@ -26,7 +29,7 @@ export default function HomePage() {
           protestDate.getFullYear() === selectedDate.getFullYear()
         );
       })
-    : protests;
+    : initialProtests;
 
   return (
     <div className="flex flex-col gap-8 md:gap-12" data-testid="home-page">
@@ -60,7 +63,7 @@ export default function HomePage() {
           )}
         </div>
 
-        {/* Event Cards */}
+        {/* Event Cards - Server-rendered for SEO, client-filtered for UX */}
         <div className="space-y-4" data-testid="events-list">
           <h2 className="text-xl font-semibold">
             {selectedDate
