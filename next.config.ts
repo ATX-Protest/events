@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
-  // Using default output mode for Railway auto-detection
+  turbopack: {
+    root: __dirname,
+  },
 };
 
 export default nextConfig;
