@@ -74,32 +74,34 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
             <p className="text-muted-foreground">No events found for this date.</p>
           ) : (
             filteredProtests.map((protest) => (
-              <Card key={protest.id} className="overflow-hidden" data-testid={`event-card-${protest.id}`}>
-                <CardContent className="p-4">
-                  <h3 className="font-semibold text-lg mb-2">{protest.title}</h3>
-                  <div className="space-y-1 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                      <CalendarIcon className="h-4 w-4" />
-                      <span>
-                        {new Date(protest.date).toLocaleDateString('en-US', {
-                          weekday: 'long',
-                          month: 'long',
-                          day: 'numeric',
-                        })}
-                      </span>
+              <Link key={protest.id} href={`/events/${protest.id}`}>
+                <Card className="overflow-hidden hover:shadow-md transition-shadow" data-testid={`event-card-${protest.id}`}>
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold text-lg mb-2">{protest.title}</h3>
+                    <div className="space-y-1 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2">
+                        <CalendarIcon className="h-4 w-4" />
+                        <span>
+                          {new Date(protest.date).toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            month: 'long',
+                            day: 'numeric',
+                          })}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Clock className="h-4 w-4" />
+                        <span>{protest.startTime} - {protest.endTime}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <MapPin className="h-4 w-4" />
+                        <span>{protest.location.name}</span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="h-4 w-4" />
-                      <span>{protest.startTime} - {protest.endTime}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4" />
-                      <span>{protest.location.name}</span>
-                    </div>
-                  </div>
-                  <p className="mt-3 text-sm line-clamp-2">{protest.description}</p>
-                </CardContent>
-              </Card>
+                    <p className="mt-3 text-sm line-clamp-2">{protest.description}</p>
+                  </CardContent>
+                </Card>
+              </Link>
             ))
           )}
         </div>
