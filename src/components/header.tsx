@@ -7,10 +7,10 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 const navItems = [
-  { href: '/partner', label: 'Partner' },
+  { href: '/events', label: 'Events' },
+  { href: '/faq', label: 'Resources' },
   { href: '/share-event', label: 'Share Event' },
   { href: '/get-alerts', label: 'Get Alerts' },
-  { href: '/action-hub', label: 'Action Hub' },
 ];
 
 export default function Header() {
