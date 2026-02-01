@@ -135,9 +135,6 @@ export default function AboutPage() {
             <Link href="/">Find Events</Link>
           </Button>
           <Button variant="outline" asChild>
-            <Link href="/share-event">Share an Event</Link>
-          </Button>
-          <Button variant="outline" asChild>
             <Link href="/get-alerts">Get Alerts</Link>
           </Button>
         </div>

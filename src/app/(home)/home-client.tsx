@@ -138,14 +138,6 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
               of collective action and aim to make it easier for Austinites to stay informed
               and get involved in causes they care about.
             </p>
-            <div className="mt-4">
-              <Link
-                href="/share-event"
-                className="text-primary font-medium hover:underline"
-              >
-                Share an event with us
-              </Link>
-            </div>
           </div>
         </div>
       </section>
