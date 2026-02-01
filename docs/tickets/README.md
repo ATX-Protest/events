@@ -22,6 +22,11 @@ Work items and tasks for the project. Each ticket is a markdown file with status
 | [006](./006-secure-alert-channels.md) | Telegram Alert Channel | Todo | High |
 | [009](./009-database-integration.md) | Database Integration | Todo | High |
 | [010](./010-contact-form.md) | Contact Form (Replace Email Exposure) | Todo | Medium |
+| [011](./011-event-sharing.md) | Event Calendar & Share Buttons | In Progress | Medium |
+| [013](./013-ical-subscription-feed.md) | Subscribable iCal Calendar Feed | Todo | Medium |
+| [014](./014-unique-url-slugs.md) | Unique URL Slugs with UUID Suffix | Todo | High |
+| [015](./015-admin-session-google-maps.md) | Admin Session & Google Maps Address | Todo | Medium |
+| [016](./016-markdown-descriptions.md) | Markdown Support in Descriptions | Todo | Low |
 
 ## Completed
 
