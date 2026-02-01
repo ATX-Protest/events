@@ -21,6 +21,7 @@ Work items and tasks for the project. Each ticket is a markdown file with status
 | [005](./005-web-push-notifications.md) | Web Push Notifications | Research | High |
 | [006](./006-secure-alert-channels.md) | Telegram Alert Channel | Todo | High |
 | [009](./009-database-integration.md) | Database Integration | Todo | High |
+| [010](./010-contact-form.md) | Contact Form (Replace Email Exposure) | Todo | Medium |
 
 ## Completed
 

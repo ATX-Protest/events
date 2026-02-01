@@ -83,6 +83,11 @@ When adding new pages:
 3. Update `sitemap.ts` to include new routes
 4. Use slug-based IDs in URLs for SEO-friendly paths
 
+When modifying existing pages:
+- Keep JSON-LD structured data in sync with content changes
+- Update `metadata` if page title/description changes
+- Ensure JSON-LD props match the rendered content (dates, titles, descriptions)
+
 Schema components in `src/components/seo/json-ld.tsx`:
 - `EventJsonLd` - For event pages
 - `ArticleJsonLd` - For content/blog pages
@@ -111,9 +116,10 @@ Current tickets:
 - `004` - Add to Home Screen / PWA (Research)
 - `005` - Web Push Notifications (Research)
 - `006` - Telegram Alert Channel (Todo)
-- `007` - Cloudflare DDoS & Bot Protection (Research)
+- `007` - Cloudflare DDoS & Bot Protection (Done)
 - `008` - Neon Database Setup (Done)
 - `009` - Database Integration (Todo) - Replace mock data with DB queries
+- `010` - Contact Form (Todo) - Replace email exposure with contact form
 
 ## Docs
 
