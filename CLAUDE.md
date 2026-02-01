@@ -121,6 +121,24 @@ Current tickets:
 - `009` - Database Integration (Todo) - Replace mock data with DB queries
 - `010` - Contact Form (Todo) - Replace email exposure with contact form
 
+## Security
+
+**Infrastructure (Cloudflare)** - See `docs/tickets/007-cloudflare-security.md`:
+- Rate limiting: 50 requests/10 seconds per IP on `/api/*` routes
+- Geo-restriction: US-only traffic
+- Bot Fight Mode enabled
+- DDoS protection (always-on)
+
+**Application-level**:
+- Server Actions have built-in CSRF protection
+- Drizzle ORM provides parameterized queries (SQL injection prevention)
+- Zod validation on all user inputs (`src/lib/validations/`)
+- Admin routes use timing-safe password comparison
+
+**Environment Variables** (required for production):
+- `DATABASE_URL` - Neon PostgreSQL connection string
+- `EVENT_ADMIN_PASSWORD` - Admin password for `/share-event` (generate with `openssl rand -base64 32`)
+
 ## Docs
 
 - `docs/tickets/` - Work items and tasks

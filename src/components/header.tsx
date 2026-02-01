@@ -9,7 +9,6 @@ import { useState } from 'react';
 const navItems = [
   { href: '/events', label: 'Events' },
   { href: '/resources', label: 'Resources' },
-  { href: '/share-event', label: 'Share Event' },
   { href: '/get-alerts', label: 'Get Alerts' },
 ];
 

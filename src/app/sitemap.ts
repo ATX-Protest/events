@@ -1,20 +1,23 @@
 import type { MetadataRoute } from 'next';
-import { getUpcomingProtests } from '@/data/protests';
+import { getProtestsForSitemap } from '@/db/queries/protests';
 import { getAllFAQArticles } from '@/data/resources';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.com';
+// Dynamic rendering for sitemap
+export const dynamic = 'force-dynamic';
 
-  // Get all protests for event pages
-  const protests = getUpcomingProtests();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] ?? 'https://atxprotests.com';
+
+  // Get all visible protests for event pages (from database)
+  const protests = await getProtestsForSitemap();
   const eventEntries: MetadataRoute.Sitemap = protests.map((protest) => ({
-    url: `${baseUrl}/events/${protest.id}`,
+    url: `${baseUrl}/events/${protest.slug}`,
     lastModified: new Date(protest.updatedAt),
     changeFrequency: 'weekly' as const,
     priority: 0.7,
   }));
 
-  // Get all FAQ articles
+  // Get all FAQ articles (still from mock data until migrated)
   const faqArticles = getAllFAQArticles();
   const faqEntries: MetadataRoute.Sitemap = faqArticles.map((article) => ({
     url: `${baseUrl}/resources/${article.slug}`,

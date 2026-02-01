@@ -1,12 +1,15 @@
 import { EventJsonLd } from '@/components/seo/json-ld';
-import { getUpcomingProtests } from '@/data/protests';
+import { getUpcomingVisibleProtests } from '@/db/queries/protests';
 import { HomePageClient } from './home-client';
 
-const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.com';
+// Dynamic rendering - database queries happen at request time
+export const dynamic = 'force-dynamic';
 
-export default function HomePage() {
+const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] ?? 'https://atxprotests.com';
+
+export default async function HomePage() {
   // Server-side: Get protests for SEO (rendered in HTML)
-  const protests = getUpcomingProtests();
+  const protests = await getUpcomingVisibleProtests();
 
   return (
     <>

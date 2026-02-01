@@ -2,7 +2,7 @@
 
 import { Calendar } from '@/components/features/calendar';
 import { Card, CardContent } from '@/components/ui/card';
-import type { Protest } from '@/data/types';
+import type { Protest } from '@/db/schema';
 import { Calendar as CalendarIcon, Clock, MapPin, Megaphone } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -11,13 +11,24 @@ interface HomePageClientProps {
   initialProtests: Protest[];
 }
 
+// Format time for display (HH:MM -> h:MM AM/PM)
+function formatTimeDisplay(time: string | null): string {
+  if (!time) return '';
+  const [hours, minutes] = time.split(':').map(Number);
+  const h = hours ?? 0;
+  const m = minutes ?? 0;
+  const period = h >= 12 ? 'PM' : 'AM';
+  const displayHour = h % 12 || 12;
+  return `${displayHour}:${String(m).padStart(2, '0')} ${period}`;
+}
+
 export function HomePageClient({ initialProtests }: HomePageClientProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const calendarEvents = initialProtests.map((protest) => ({
     date: protest.date,
     title: protest.title,
-    id: protest.id,
+    id: protest.slug,
   }));
 
   const filteredProtests = selectedDate
@@ -74,8 +85,8 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
             <p className="text-muted-foreground">No events found for this date.</p>
           ) : (
             filteredProtests.map((protest) => (
-              <Link key={protest.id} href={`/events/${protest.id}`}>
-                <Card className="overflow-hidden hover:shadow-md transition-shadow" data-testid={`event-card-${protest.id}`}>
+              <Link key={protest.id} href={`/events/${protest.slug}`}>
+                <Card className="overflow-hidden hover:shadow-md transition-shadow" data-testid={`event-card-${protest.slug}`}>
                   <CardContent className="p-4">
                     <h3 className="font-semibold text-lg mb-2">{protest.title}</h3>
                     <div className="space-y-1 text-sm text-muted-foreground">
@@ -91,11 +102,15 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
                       </div>
                       <div className="flex items-center gap-2">
                         <Clock className="h-4 w-4" />
-                        <span>{protest.startTime} - {protest.endTime}</span>
+                        <span>
+                          {protest.isAllDay
+                            ? 'All Day'
+                            : `${formatTimeDisplay(protest.startTime)}${protest.endTime ? ` - ${formatTimeDisplay(protest.endTime)}` : ''}`}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <MapPin className="h-4 w-4" />
-                        <span>{protest.location.name}</span>
+                        <span>{protest.locationName}</span>
                       </div>
                     </div>
                     <p className="mt-3 text-sm line-clamp-2">{protest.description}</p>

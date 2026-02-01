@@ -1,31 +1,27 @@
-import type { Protest } from '@/data/types';
+import type { Protest as DbProtest } from '@/db/schema';
 
 interface EventJsonLdProps {
-  protest: Protest;
+  protest: DbProtest;
   baseUrl: string;
 }
 
 export function EventJsonLd({ protest, baseUrl }: EventJsonLdProps) {
-  // Parse time string (e.g., "10:00 AM") to 24-hour format
-  const parseTime = (timeStr: string): string => {
-    const parts = timeStr.split(' ');
-    const time = parts[0] ?? '12:00';
-    const period = parts[1] ?? 'PM';
-    const timeParts = time.split(':');
-    const hours = Number(timeParts[0] ?? 12);
-    const minutes = Number(timeParts[1] ?? 0);
-    let hour24 = hours;
-    if (period === 'PM' && hours !== 12) hour24 += 12;
-    if (period === 'AM' && hours === 12) hour24 = 0;
-    return `${String(hour24).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00`;
+  // Format time for JSON-LD (HH:MM -> HH:MM:00)
+  const formatTime = (timeStr: string | null): string => {
+    if (!timeStr) return '00:00:00';
+    return `${timeStr}:00`;
   };
 
-  const startDateTime = `${protest.date}T${parseTime(protest.startTime)}`;
-  const endDateTime = protest.endTime
-    ? `${protest.date}T${parseTime(protest.endTime)}`
-    : undefined;
+  const startDateTime = protest.isAllDay
+    ? protest.date
+    : `${protest.date}T${formatTime(protest.startTime)}`;
+  const endDateTime =
+    protest.endTime && !protest.isAllDay
+      ? `${protest.date}T${formatTime(protest.endTime)}`
+      : undefined;
 
-  const eventUrl = `${baseUrl}/events/${protest.id}`;
+  const eventUrl = `${baseUrl}/events/${protest.slug}`;
+  const isOnline = !protest.locationAddress;
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -35,19 +31,27 @@ export function EventJsonLd({ protest, baseUrl }: EventJsonLdProps) {
     startDate: startDateTime,
     ...(endDateTime && { endDate: endDateTime }),
     eventStatus: 'https://schema.org/EventScheduled',
-    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
-    location: {
-      '@type': 'Place',
-      name: protest.location.name,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: protest.location.address,
-        addressLocality: protest.location.city,
-        addressRegion: protest.location.state,
-        postalCode: protest.location.zip,
-        addressCountry: 'US',
-      },
-    },
+    eventAttendanceMode: isOnline
+      ? 'https://schema.org/OnlineEventAttendanceMode'
+      : 'https://schema.org/OfflineEventAttendanceMode',
+    location: isOnline
+      ? {
+          '@type': 'VirtualLocation',
+          name: protest.locationName,
+          ...(protest.externalUrl && { url: protest.externalUrl }),
+        }
+      : {
+          '@type': 'Place',
+          name: protest.locationName,
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: protest.locationAddress,
+            addressLocality: protest.locationCity,
+            addressRegion: protest.locationState,
+            postalCode: protest.locationZip,
+            addressCountry: 'US',
+          },
+        },
     organizer: {
       '@type': 'Organization',
       name: protest.organizer,

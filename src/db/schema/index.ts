@@ -6,6 +6,7 @@ import {
   pgEnum,
   uuid,
   jsonb,
+  boolean,
 } from 'drizzle-orm/pg-core';
 
 // Enums
@@ -70,13 +71,14 @@ export const protests = pgTable('protests', {
   title: text('title').notNull(),
   description: text('description').notNull(),
   date: text('date').notNull(), // ISO date string (YYYY-MM-DD)
-  startTime: text('start_time').notNull(),
+  isAllDay: boolean('is_all_day').notNull().default(false),
+  startTime: text('start_time'), // null for all-day events
   endTime: text('end_time'),
   locationName: text('location_name').notNull(),
-  locationAddress: text('location_address').notNull(),
+  locationAddress: text('location_address'), // null for online/TBD events
   locationCity: text('location_city').notNull(),
   locationState: text('location_state').notNull(),
-  locationZip: text('location_zip').notNull(),
+  locationZip: text('location_zip'), // null for online/TBD events
   organizer: text('organizer').notNull(),
   expectedAttendance: integer('expected_attendance'),
   status: protestStatusEnum('status').notNull().default('upcoming'),
@@ -86,6 +88,7 @@ export const protests = pgTable('protests', {
   safetyInfo: text('safety_info'),
   imageUrl: text('image_url'),
   externalUrl: text('external_url'),
+  isHidden: boolean('is_hidden').notNull().default(false),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });

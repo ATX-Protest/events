@@ -1,7 +1,7 @@
 import { BreadcrumbJsonLd, EventJsonLd } from '@/components/seo/json-ld';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { getProtestById, getUpcomingProtests } from '@/data/protests';
+import { getProtestBySlug } from '@/db/queries/protests';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -16,22 +16,18 @@ import {
   Tag,
 } from 'lucide-react';
 
-const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.com';
+const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] ?? 'https://atxprotests.com';
 
 interface EventPageProps {
   params: Promise<{ id: string }>;
 }
 
-export function generateStaticParams() {
-  const protests = getUpcomingProtests();
-  return protests.map((protest) => ({
-    id: protest.id,
-  }));
-}
+// Dynamic rendering - database queries happen at request time
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: EventPageProps): Promise<Metadata> {
   const { id } = await params;
-  const protest = getProtestById(id);
+  const protest = await getProtestBySlug(id);
 
   if (!protest) {
     return {
@@ -48,25 +44,25 @@ export async function generateMetadata({ params }: EventPageProps): Promise<Meta
 
   return {
     title: `${protest.title} - ${formattedDate}`,
-    description: `${protest.description.slice(0, 150)}... Join us at ${protest.location.name} in Austin, TX.`,
+    description: `${protest.description.slice(0, 150)}... Join us at ${protest.locationName} in Austin, TX.`,
     openGraph: {
       title: `${protest.title} | ATX Protests`,
       description: protest.description,
       type: 'website',
-      url: `${baseUrl}/events/${protest.id}`,
+      url: `${baseUrl}/events/${protest.slug}`,
       images: protest.imageUrl
         ? [{ url: protest.imageUrl, alt: protest.title }]
         : [{ url: '/og-image.png', alt: 'ATX Protests' }],
     },
     alternates: {
-      canonical: `${baseUrl}/events/${protest.id}`,
+      canonical: `${baseUrl}/events/${protest.slug}`,
     },
   };
 }
 
 export default async function EventPage({ params }: EventPageProps) {
   const { id } = await params;
-  const protest = getProtestById(id);
+  const protest = await getProtestBySlug(id);
 
   if (!protest) {
     notFound();
@@ -96,8 +92,21 @@ export default async function EventPage({ params }: EventPageProps) {
   const breadcrumbs = [
     { name: 'Home', url: baseUrl },
     { name: 'Events', url: `${baseUrl}/events` },
-    { name: protest.title, url: `${baseUrl}/events/${protest.id}` },
+    { name: protest.title, url: `${baseUrl}/events/${protest.slug}` },
   ];
+
+  // Format time for display (HH:MM -> h:MM AM/PM)
+  const formatTimeDisplay = (time: string | null): string => {
+    if (!time) return '';
+    const [hours, minutes] = time.split(':').map(Number);
+    const h = hours ?? 0;
+    const m = minutes ?? 0;
+    const period = h >= 12 ? 'PM' : 'AM';
+    const displayHour = h % 12 || 12;
+    return `${displayHour}:${String(m).padStart(2, '0')} ${period}`;
+  };
+
+  const hasPhysicalAddress = protest.locationAddress && protest.locationZip;
 
   return (
     <>
@@ -119,7 +128,7 @@ export default async function EventPage({ params }: EventPageProps) {
         <header className="space-y-4">
           <div className="flex flex-wrap gap-2">
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
-              {categoryLabels[protest.category] || protest.category}
+              {categoryLabels[protest.category] ?? protest.category}
             </span>
             {protest.status === 'cancelled' && (
               <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-destructive/10 text-destructive">
@@ -144,27 +153,43 @@ export default async function EventPage({ params }: EventPageProps) {
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <Clock className="h-5 w-5 text-primary mt-0.5" />
-                <div>
-                  <p className="font-medium">Time</p>
-                  <p className="text-muted-foreground">
-                    {protest.startTime}
-                    {protest.endTime && ` - ${protest.endTime}`}
-                  </p>
+              {!protest.isAllDay && protest.startTime && (
+                <div className="flex items-start gap-4">
+                  <Clock className="h-5 w-5 text-primary mt-0.5" />
+                  <div>
+                    <p className="font-medium">Time</p>
+                    <p className="text-muted-foreground">
+                      {formatTimeDisplay(protest.startTime)}
+                      {protest.endTime && ` - ${formatTimeDisplay(protest.endTime)}`}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {protest.isAllDay && (
+                <div className="flex items-start gap-4">
+                  <Clock className="h-5 w-5 text-primary mt-0.5" />
+                  <div>
+                    <p className="font-medium">Time</p>
+                    <p className="text-muted-foreground">All Day</p>
+                  </div>
+                </div>
+              )}
 
               <div className="flex items-start gap-4">
                 <MapPin className="h-5 w-5 text-primary mt-0.5" />
                 <div>
-                  <p className="font-medium">{protest.location.name}</p>
-                  <p className="text-muted-foreground">
-                    {protest.location.address}
-                    <br />
-                    {protest.location.city}, {protest.location.state}{' '}
-                    {protest.location.zip}
-                  </p>
+                  <p className="font-medium">{protest.locationName}</p>
+                  {hasPhysicalAddress ? (
+                    <p className="text-muted-foreground">
+                      {protest.locationAddress}
+                      <br />
+                      {protest.locationCity}, {protest.locationState}{' '}
+                      {protest.locationZip}
+                    </p>
+                  ) : (
+                    <p className="text-muted-foreground">Online / Location TBD</p>
+                  )}
                 </div>
               </div>
 

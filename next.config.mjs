@@ -1,9 +1,4 @@
-import type { NextConfig } from "next";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
+/** @type {import('next').NextConfig} */
 const securityHeaders = [
   {
     key: 'X-Content-Type-Options',
@@ -27,10 +22,7 @@ const securityHeaders = [
   },
 ];
 
-const nextConfig: NextConfig = {
-  turbopack: {
-    root: __dirname,
-  },
+const nextConfig = {
   async headers() {
     return [
       {
