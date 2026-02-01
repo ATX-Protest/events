@@ -48,10 +48,30 @@ npm run db:studio        # Open Drizzle Studio
 ## Standards
 
 - TypeScript strict mode, no `any`
-- All components need `data-testid` for Playwright
+- All UI elements need `data-testid` for Playwright (see Testability Standards)
 - Conventional commits: `feat:`, `fix:`, `refactor:`
 - PR workflow only, no direct pushes to main
 - **Document the "why"**: Add inline comments explaining non-obvious decisions when context is known during development (see AGENT.md for details)
+- After completing work, run relevant skill audits (see Skill Orchestration)
+
+## Design System
+
+**Source of truth**: `src/app/globals.css` - All design tokens are CSS variables with inline documentation.
+
+| Token | Color | Use For |
+|-------|-------|---------|
+| `primary` | Orange #FF6B35 | CTAs, links, active states, "today" highlights, category pills |
+| `secondary` | Slate #1A365D | Navigation, headers, sidebar, trust/info elements |
+| `accent` | Green #48BB78 | Safety resources, know-your-rights, success states |
+| `destructive` | Red | Cancelled events, errors, warnings |
+| `muted` | Warm gray | Backgrounds, disabled states, secondary text |
+
+**Typography**: DM Sans (body), Space Grotesk (headings)
+
+**Consistent patterns**:
+- Category pills: `bg-primary/10 text-primary rounded-full px-3 py-1`
+- Safety content: `bg-accent/10 text-accent`
+- Cancelled badges: `bg-destructive/10 text-destructive rounded-full`
 
 ## UI/UX Standards
 
@@ -68,6 +88,40 @@ npm run db:studio        # Open Drizzle Studio
 - Footer/nav links should have `hover:underline` for clear affordance
 - Cards should have `hover:border-primary/20 transition-all` for better feedback
 - Use `→` not `&rarr;` for arrow characters
+
+## Skill Orchestration
+
+Skills are specialized agents. Use them in order: **build → validate → audit**.
+
+### Building UI
+When asked to build, design, or improve UI components/pages:
+1. Use `/frontend-design` to create polished, distinctive interfaces
+2. Ensure all elements have `data-testid` per Testability Standards (required during build, not after)
+3. Then run `/web-design-guidelines` to validate accessibility and UX patterns
+
+### Post-Work Audits
+
+| Trigger | Run | Purpose |
+|---------|-----|---------|
+| After UI work | `/web-design-guidelines` | Accessibility, UX validation |
+| Forms, auth, user input | `/security-review` | OWASP, validation, CSRF |
+| New pages/routes | `/seo-audit` | Meta tags, JSON-LD, sitemap |
+| React/Next.js performance | `/vercel-react-best-practices` | Bundle size, rendering |
+
+**Mandatory**: `/security-review` for any auth, user input, or API routes.
+
+## Testability Standards
+
+All UI elements need `data-testid` for Playwright and easy AI references (e.g., "change the `home-hero-cta` button").
+
+| Pattern | Example | Use For |
+|---------|---------|---------|
+| `{page}-{section}` | `home-hero`, `alerts-faq` | Page sections |
+| `{page}-{section}-{element}` | `home-hero-title`, `home-hero-cta` | Specific elements |
+| `{component}-{identifier}` | `event-card-{slug}`, `faq-item-{index}` | Repeated items |
+| `{action}-btn` | `submit-btn`, `enable-notifications-btn` | Buttons |
+| `{name}-state-{value}` | `push-state-subscribed`, `push-state-denied` | State indicators |
+| `{name}-input`, `{name}-dropdown` | `email-input`, `category-dropdown` | Form controls |
 
 ## Workflow
 

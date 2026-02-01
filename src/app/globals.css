@@ -1,49 +1,88 @@
 @import "tailwindcss";
 @config "../../tailwind.config.ts";
 
+/*
+ * =============================================================================
+ * DESIGN SYSTEM - ATX Protests
+ * =============================================================================
+ * This file is the single source of truth for all design tokens.
+ * Tailwind classes reference these CSS variables (e.g., `bg-primary`, `text-accent`).
+ *
+ * COLOR PHILOSOPHY:
+ * - Primary (Orange #FF6B35): Action, urgency, CTAs, interactive elements
+ * - Secondary (Slate #1A365D): Trust, information, navigation, headers
+ * - Accent (Green #48BB78): Safety resources, success states, positive actions
+ * - Destructive (Red): Errors, cancellations, warnings
+ * - Muted: Backgrounds, disabled states, secondary text
+ *
+ * USAGE GUIDELINES:
+ * - CTAs & buttons: `bg-primary` or `text-primary`
+ * - Category pills: `bg-primary/10 text-primary rounded-full`
+ * - Safety/resource content: `text-accent` or `bg-accent/10`
+ * - Navigation & trust elements: `bg-secondary`
+ * - Cancelled/error states: `bg-destructive/10 text-destructive`
+ *
+ * TYPOGRAPHY:
+ * - Body text: DM Sans (--font-body) - clean, readable
+ * - Headings: Space Grotesk (--font-display) - modern, distinctive
+ * =============================================================================
+ */
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 220 20% 15%;
+    /* Base colors - warm off-white background for approachability */
+    --background: 40 20% 98%;
+    --foreground: 220 25% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 15%;
+    --card-foreground: 220 25% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 15%;
+    --popover-foreground: 220 25% 12%;
 
-    /* Primary: Bold orange (#FF6B35) - Action/urgency */
-    --primary: 16 100% 60%;
-    --primary-foreground: 0 0% 100%;
+    /* Primary: Bold orange - conveys urgency and action
+       Use for: CTAs, links, active states, "today" highlights, category pills */
+    --primary: 16 100% 60%;           /* #FF6B35 */
+    --primary-foreground: 0 0% 100%;  /* White text on primary */
 
-    /* Secondary: Deep blue (#1A365D) - Trust/information */
-    --secondary: 217 56% 23%;
+    /* Secondary: Deep slate blue - conveys trust and authority
+       Use for: Navigation, headers, sidebar, informational badges */
+    --secondary: 217 56% 23%;         /* #1A365D */
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 220 14% 96%;
+    /* Muted: Warm gray - for backgrounds and secondary content */
+    --muted: 40 15% 94%;
     --muted-foreground: 220 10% 40%;
 
-    /* Accent: Safety green (#48BB78) - Safety resources */
-    --accent: 145 58% 51%;
+    /* Accent: Safety green - conveys safety and positive actions
+       Use for: Know-your-rights content, safety info, success states */
+    --accent: 145 58% 51%;            /* #48BB78 */
     --accent-foreground: 0 0% 100%;
 
+    /* Destructive: Red - for errors and cancellations
+       Use for: Cancelled events, error messages, warnings */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 16 100% 60%;
+    /* UI colors */
+    --border: 40 10% 88%;
+    --input: 40 10% 88%;
+    --ring: 16 100% 60%;              /* Focus rings match primary */
 
     /* Chart colors for data visualization */
-    --chart-1: 16 100% 60%;
-    --chart-2: 145 58% 51%;
-    --chart-3: 217 56% 23%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 280 65% 60%;
+    --chart-1: 16 100% 60%;           /* Primary orange */
+    --chart-2: 145 58% 51%;           /* Accent green */
+    --chart-3: 217 56% 23%;           /* Secondary slate */
+    --chart-4: 43 74% 66%;            /* Gold */
+    --chart-5: 280 65% 60%;           /* Purple */
 
-    --radius: 0.5rem;
+    --radius: 0.625rem;
 
-    /* Sidebar colors */
+    /* Typography - loaded via next/font in layout.tsx */
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-display: 'Space Grotesk', system-ui, sans-serif;
+
+    /* Sidebar uses secondary (slate) as base for trust/navigation feel */
     --sidebar-background: 217 56% 23%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 16 100% 60%;
@@ -55,36 +94,36 @@
   }
 
   .dark {
-    --background: 220 20% 10%;
-    --foreground: 0 0% 98%;
+    --background: 220 20% 8%;
+    --foreground: 40 10% 96%;
 
-    --card: 220 20% 12%;
-    --card-foreground: 0 0% 98%;
+    --card: 220 20% 10%;
+    --card-foreground: 40 10% 96%;
 
-    --popover: 220 20% 12%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 220 20% 10%;
+    --popover-foreground: 40 10% 96%;
 
     /* Primary: Bold orange - slightly adjusted for dark mode */
-    --primary: 16 100% 55%;
+    --primary: 16 100% 58%;
     --primary-foreground: 0 0% 100%;
 
     /* Secondary: Lighter blue for dark mode */
-    --secondary: 217 56% 35%;
+    --secondary: 217 50% 40%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 220 15% 18%;
-    --muted-foreground: 220 10% 65%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 220 10% 60%;
 
     /* Accent: Safety green - adjusted for dark mode */
-    --accent: 145 58% 45%;
+    --accent: 145 55% 48%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62% 45%;
+    --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 15% 20%;
-    --input: 220 15% 20%;
-    --ring: 16 100% 55%;
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 16 100% 58%;
 
     /* Chart colors for dark mode */
     --chart-1: 16 100% 55%;
@@ -94,13 +133,13 @@
     --chart-5: 280 65% 55%;
 
     /* Sidebar colors - dark mode */
-    --sidebar-background: 220 20% 8%;
+    --sidebar-background: 220 20% 6%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 16 100% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 20% 15%;
+    --sidebar-accent: 220 20% 12%;
     --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 220 15% 18%;
+    --sidebar-border: 220 15% 15%;
     --sidebar-ring: 16 100% 55%;
   }
 }
@@ -110,9 +149,22 @@
     border-color: hsl(var(--border));
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Display font for headings */
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
   }
 }
 
@@ -138,5 +190,159 @@
   /* Touch optimization - removes 300ms tap delay on mobile */
   .touch-action-manipulation {
     touch-action: manipulation;
+  }
+
+  /* Gradient text utility */
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(16 100% 45%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Section container with consistent padding */
+  .section-container {
+    @apply w-full mx-auto;
+  }
+
+  /* Hero section styling */
+  .hero-gradient {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--primary) / 0.03) 0%,
+      transparent 60%
+    );
+  }
+
+  .dark .hero-gradient {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--primary) / 0.08) 0%,
+      transparent 60%
+    );
+  }
+
+  /* Card hover lift effect */
+  .card-hover {
+    @apply transition-all duration-200 ease-out;
+  }
+
+  .card-hover:hover {
+    @apply shadow-lg -translate-y-0.5;
+  }
+
+  /* Focus ring for accessibility */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* Animated underline for links */
+  .link-underline {
+    @apply relative;
+  }
+
+  .link-underline::after {
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-current transition-all duration-200;
+    content: '';
+  }
+
+  .link-underline:hover::after {
+    @apply w-full;
+  }
+
+  /* Stagger animation delays */
+  .stagger-1 { animation-delay: 50ms; }
+  .stagger-2 { animation-delay: 100ms; }
+  .stagger-3 { animation-delay: 150ms; }
+  .stagger-4 { animation-delay: 200ms; }
+  .stagger-5 { animation-delay: 250ms; }
+
+  /* Badge-like decorative element */
+  .badge-dot::before {
+    content: '';
+    @apply inline-block w-1.5 h-1.5 rounded-full bg-primary mr-2;
+  }
+}
+
+/* Animations */
+@layer base {
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes pulse-subtle {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.85;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out forwards;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.5s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.3s ease-out forwards;
+  }
+
+  .animate-pulse-subtle {
+    animation: pulse-subtle 2s ease-in-out infinite;
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 640px) {
+  /* Larger touch targets on mobile */
+  button, [role="button"], a {
+    min-height: 44px;
+  }
+
+  /* Better tap highlight */
+  button, [role="button"] {
+    -webkit-tap-highlight-color: hsl(var(--primary) / 0.1);
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -1,7 +1,9 @@
 import { BreadcrumbJsonLd, EventJsonLd } from '@/components/seo/json-ld';
+import { ShareBar } from '@/components/features/share';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { getProtestBySlug } from '@/db/queries/protests';
+import { protestToShareable } from '@/lib/share';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -136,8 +138,11 @@ export default async function EventPage({ params }: EventPageProps) {
               </span>
             )}
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold">{protest.title}</h1>
-          <p className="text-lg text-muted-foreground">{protest.description}</p>
+          <h1 className="text-3xl md:text-4xl font-bold text-balance">{protest.title}</h1>
+          <p className="text-lg text-muted-foreground text-pretty">{protest.description}</p>
+
+          {/* Share options - allows adding to calendar or sharing event */}
+          <ShareBar event={protestToShareable(protest)} />
         </header>
 
         {/* Event details grid */}
