@@ -2,6 +2,7 @@ import { BreadcrumbJsonLd, EventJsonLd } from '@/components/seo/json-ld';
 import { ShareBar } from '@/components/features/share';
 import { Button } from '@/components/ui/button';
 import { getProtestBySlug } from '@/db/queries/protests';
+import { simpleMarkdownToHtml } from '@/lib/markdown';
 import { protestToShareable } from '@/lib/share';
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -212,13 +213,12 @@ export default async function EventPage({ params }: EventPageProps) {
             <ShareBar event={protestToShareable(protest)} />
           </div>
 
-          {/* Description */}
-          <p
-            className="text-lg md:text-xl text-muted-foreground text-pretty max-w-3xl leading-relaxed"
+          {/* Description - supports simple markdown */}
+          <div
+            className="text-lg md:text-xl text-muted-foreground text-pretty max-w-3xl leading-relaxed [&_p]:mb-1 [&_h1]:text-2xl [&_h1]:font-semibold [&_h1]:text-foreground [&_h1]:mt-6 [&_h1]:mb-2 [&_h1]:font-[family-name:var(--font-body)] [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-foreground [&_h2]:mt-5 [&_h2]:mb-2 [&_h2]:font-[family-name:var(--font-body)] [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:text-foreground [&_h3]:mt-4 [&_h3]:mb-1 [&_h3]:font-[family-name:var(--font-body)] [&_a]:text-primary [&_a]:underline [&_a]:hover:text-primary/80 [&_strong]:text-foreground [&_strong]:font-semibold"
             data-testid="event-description"
-          >
-            {protest.description}
-          </p>
+            dangerouslySetInnerHTML={{ __html: simpleMarkdownToHtml(protest.description) }}
+          />
         </header>
 
         {/* Main content grid - restructured for desktop */}
@@ -228,24 +228,23 @@ export default async function EventPage({ params }: EventPageProps) {
         >
           {/* Left column: Safety info (desktop) */}
           <div className="space-y-6 order-2 lg:order-1" data-testid="event-left-column">
-            {/* Safety card - prominent on left */}
-            {protest.safetyInfo && (
-              <div
-                className="rounded-xl bg-accent/5 border border-accent/20 p-6"
-                data-testid="event-safety-card"
+            {/* Safety card - always shown with default message if no custom info */}
+            <div
+              className="rounded-xl bg-accent/5 border border-accent/20 p-6"
+              data-testid="event-safety-card"
+            >
+              <h2 className="font-semibold text-lg mb-4 flex items-center gap-2 text-accent">
+                <Shield className="h-5 w-5" aria-hidden="true" />
+                Safety Information
+              </h2>
+              <p
+                className="text-muted-foreground leading-relaxed"
+                data-testid="event-safety-info"
               >
-                <h2 className="font-semibold text-lg mb-4 flex items-center gap-2 text-accent">
-                  <Shield className="h-5 w-5" aria-hidden="true" />
-                  Safety Information
-                </h2>
-                <p
-                  className="text-muted-foreground leading-relaxed"
-                  data-testid="event-safety-info"
-                >
-                  {protest.safetyInfo}
-                </p>
-              </div>
-            )}
+                {protest.safetyInfo ||
+                  'Always be aware of your surroundings and supportive of others in the community.'}
+              </p>
+            </div>
 
             {/* Requirements card */}
             {protest.requirements && protest.requirements.length > 0 && (
