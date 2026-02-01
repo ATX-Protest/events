@@ -47,7 +47,6 @@ export default tseslint.config(
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
-        project: './tsconfig.json',
       },
     },
     rules: {
@@ -102,9 +101,10 @@ export default tseslint.config(
     },
   },
 
-  // Test files - relax some rules
+  // Test files - disable type checking (tests excluded from tsconfig.json)
   {
     files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', 'tests/**/*.{ts,tsx}'],
+    ...tseslint.configs.disableTypeChecked,
     rules: {
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-non-null-assertion': 'off',

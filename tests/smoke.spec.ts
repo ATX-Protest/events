@@ -49,12 +49,6 @@ test.describe('Smoke Tests - All Pages Load', () => {
     await expect(page.getByTestId('get-alerts-page')).toBeVisible();
   });
 
-  test('action hub page loads', async ({ page }) => {
-    await page.goto('/action-hub');
-    await expect(page).toHaveTitle(/Take Action/);
-    await expect(page.getByTestId('action-hub-page')).toBeVisible();
-  });
-
   test('partner page loads', async ({ page }) => {
     await page.goto('/partner');
     await expect(page).toHaveTitle(/Partner/);

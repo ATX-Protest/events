@@ -27,7 +27,7 @@ Site is live but not indexed by search engines. Analytics are tracking visits.
 - [x] `/resources` - Resources & FAQ listing
 - [x] `/resources/[slug]` - Individual articles (know-your-rights, etc.)
 - [x] `/about`, `/privacy`, `/terms` - Footer pages
-- [x] `/admin/event`, `/get-alerts`, `/action-hub`, `/partner`
+- [x] `/admin/event`, `/get-alerts`, `/partner`
 
 ---
 

@@ -14,14 +14,9 @@ export default function NotFound() {
           The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
       </div>
-      <div className="flex gap-4">
-        <Button asChild>
-          <Link href="/">Find Events</Link>
-        </Button>
-        <Button variant="outline" asChild>
-          <Link href="/action-hub">Take Action</Link>
-        </Button>
-      </div>
+      <Button asChild>
+        <Link href="/">Find Events</Link>
+      </Button>
     </div>
   );
 }

@@ -24,7 +24,7 @@ npm run db:studio        # Open Drizzle Studio
 - `/resources` - Resources & FAQ listing
 - `/resources/[slug]` - Individual articles (know-your-rights, etc.)
 - `/admin/event` - Event administration (password-protected)
-- `/get-alerts`, `/action-hub`, `/partner`
+- `/get-alerts`, `/partner`
 
 **Key directories**:
 - `src/app/` - Pages and layouts (App Router)
