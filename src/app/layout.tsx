@@ -6,12 +6,22 @@ import { OrganizationJsonLd, WebSiteJsonLd } from '@/components/seo/json-ld';
 import { MyThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { DM_Sans, Space_Grotesk } from 'next/font/google';
 import type React from 'react';
 import ClientLayout from './client-layout';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-display',
+  display: 'swap',
+});
 
 const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.com';
 
@@ -92,7 +102,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <OrganizationJsonLd baseUrl={baseUrl} />
         <WebSiteJsonLd baseUrl={baseUrl} />
       </head>
-      <body className={inter.className}>
+      <body className={`${dmSans.variable} ${spaceGrotesk.variable} font-sans`}>
         <GoogleTagManagerNoScript />
         <MyThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ClientLayout isSignedIn={isSignedIn}>{children}</ClientLayout>
