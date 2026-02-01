@@ -130,6 +130,15 @@ export const volunteerOpportunities = pgTable('volunteer_opportunities', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
 });
 
+export const pushSubscriptions = pgTable('push_subscriptions', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  endpoint: text('endpoint').notNull().unique(),
+  p256dh: text('p256dh').notNull(),
+  auth: text('auth').notNull(),
+  userAgent: text('user_agent'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+});
+
 // Type exports for use in the application
 export type Protest = typeof protests.$inferSelect;
 export type NewProtest = typeof protests.$inferInsert;
@@ -139,3 +148,5 @@ export type Update = typeof updates.$inferSelect;
 export type NewUpdate = typeof updates.$inferInsert;
 export type VolunteerOpportunity = typeof volunteerOpportunities.$inferSelect;
 export type NewVolunteerOpportunity = typeof volunteerOpportunities.$inferInsert;
+export type PushSubscription = typeof pushSubscriptions.$inferSelect;
+export type NewPushSubscription = typeof pushSubscriptions.$inferInsert;
