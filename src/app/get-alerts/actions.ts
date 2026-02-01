@@ -113,9 +113,26 @@ export async function unsubscribeFromPush(
   }
 }
 
+// Process array in chunks for batch processing
+function chunkArray<T>(array: T[], size: number): T[][] {
+  const chunks: T[][] = [];
+  for (let i = 0; i < array.length; i += size) {
+    chunks.push(array.slice(i, i + size));
+  }
+  return chunks;
+}
+
+// Small delay between batches to prevent overwhelming connections
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+const BATCH_SIZE = 100; // Process 100 notifications at a time
+const BATCH_DELAY_MS = 100; // 100ms delay between batches
+
 export async function sendPushNotification(
   data: SendNotificationInput
-): Promise<ActionResult<{ sent: number; failed: number }>> {
+): Promise<ActionResult<{ sent: number; failed: number; total: number }>> {
   const parseResult = sendNotificationSchema.safeParse(data);
   if (!parseResult.success) {
     const errorMessages = parseResult.error.issues.map((issue) => issue.message);
@@ -149,48 +166,67 @@ export async function sendPushNotification(
       icon: '/icon-192.png',
     });
 
-    console.log('[Push] Sending payload:', payload);
+    console.log(`[Push] Sending to ${subscriptions.length} subscribers in batches of ${BATCH_SIZE}`);
 
     let sent = 0;
     let failed = 0;
     const expiredEndpoints: string[] = [];
 
-    await Promise.all(
-      subscriptions.map(async (sub) => {
-        try {
-          await webpush.sendNotification(
-            {
-              endpoint: sub.endpoint,
-              keys: {
-                p256dh: sub.p256dh,
-                auth: sub.auth,
-              },
-            },
-            payload
-          );
-          sent++;
-        } catch (error) {
-          failed++;
-          // Check for expired subscriptions (410 Gone)
-          if (error instanceof webpush.WebPushError && error.statusCode === 410) {
-            expiredEndpoints.push(sub.endpoint);
-          } else {
-            console.error('Error sending push to endpoint:', sub.endpoint, error);
-          }
-        }
-      })
-    );
+    // Process subscriptions in batches
+    const batches = chunkArray(subscriptions, BATCH_SIZE);
 
-    // Clean up expired subscriptions
-    if (expiredEndpoints.length > 0) {
+    for (let i = 0; i < batches.length; i++) {
+      const batch = batches[i];
+      if (!batch) continue;
+      console.log(`[Push] Processing batch ${i + 1}/${batches.length} (${batch.length} subscribers)`);
+
       await Promise.all(
-        expiredEndpoints.map((endpoint) =>
-          db.delete(pushSubscriptions).where(eq(pushSubscriptions.endpoint, endpoint))
-        )
+        batch.map(async (sub) => {
+          try {
+            await webpush.sendNotification(
+              {
+                endpoint: sub.endpoint,
+                keys: {
+                  p256dh: sub.p256dh,
+                  auth: sub.auth,
+                },
+              },
+              payload
+            );
+            sent++;
+          } catch (error) {
+            failed++;
+            // Check for expired subscriptions (410 Gone)
+            if (error instanceof webpush.WebPushError && error.statusCode === 410) {
+              expiredEndpoints.push(sub.endpoint);
+            } else {
+              console.error('Error sending push to endpoint:', sub.endpoint, error);
+            }
+          }
+        })
       );
+
+      // Add delay between batches (except for the last one)
+      if (i < batches.length - 1) {
+        await delay(BATCH_DELAY_MS);
+      }
     }
 
-    return { success: true, data: { sent, failed } };
+    // Clean up expired subscriptions in batches too
+    if (expiredEndpoints.length > 0) {
+      console.log(`[Push] Cleaning up ${expiredEndpoints.length} expired subscriptions`);
+      const expiredBatches = chunkArray(expiredEndpoints, BATCH_SIZE);
+      for (const batch of expiredBatches) {
+        await Promise.all(
+          batch.map((endpoint) =>
+            db.delete(pushSubscriptions).where(eq(pushSubscriptions.endpoint, endpoint))
+          )
+        );
+      }
+    }
+
+    console.log(`[Push] Complete: ${sent} sent, ${failed} failed`);
+    return { success: true, data: { sent, failed, total: subscriptions.length } };
   } catch (error) {
     console.error('Error sending push notifications:', error);
     return { success: false, error: 'Failed to send notifications' };
