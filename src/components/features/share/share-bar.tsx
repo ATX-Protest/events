@@ -92,13 +92,13 @@ export function ShareBar({ event }: ShareBarProps) {
 
   return (
     <div
-      className="flex flex-wrap items-center gap-2"
+      className="flex flex-wrap items-center gap-3"
       data-testid="share-bar"
     >
       {/* Add to Calendar dropdown */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="sm" data-testid="add-to-calendar-button">
+          <Button variant="outline" data-testid="add-to-calendar-button">
             <Calendar className="h-4 w-4 mr-2" aria-hidden="true" />
             Add to Calendar
           </Button>
@@ -142,10 +142,9 @@ export function ShareBar({ event }: ShareBarProps) {
       {/* Copy Link button */}
       <Button
         variant="outline"
-        size="sm"
         onClick={handleCopyLink}
         data-testid="copy-link-button"
-        className="min-w-[110px]"
+        className="min-w-[120px]"
       >
         {copied ? (
           <>
@@ -164,7 +163,6 @@ export function ShareBar({ event }: ShareBarProps) {
       {supportsNativeShare && (
         <Button
           variant="outline"
-          size="sm"
           onClick={handleNativeShare}
           data-testid="native-share-button"
         >
@@ -176,7 +174,6 @@ export function ShareBar({ event }: ShareBarProps) {
       {/* QR Code button */}
       <Button
         variant="outline"
-        size="sm"
         onClick={handleOpenQrDialog}
         data-testid="qr-code-button"
       >

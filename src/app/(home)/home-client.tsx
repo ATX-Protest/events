@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import type { Protest } from '@/db/schema';
 import { CATEGORY_LABELS, PROTEST_CATEGORIES, type ProtestCategory } from '@/lib/categories';
 import { protestToShareable } from '@/lib/share';
+import { usePushNotifications } from '@/hooks/use-push-notifications';
 import {
   Bell,
   Calendar as CalendarIcon,
@@ -77,6 +78,7 @@ function formatEventDate(dateStr: string): { weekday: string; monthDay: string; 
 export function HomePageClient({ initialProtests }: HomePageClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { state: pushState } = usePushNotifications();
 
   const [selectedCategories, setSelectedCategories] = useState<Set<ProtestCategory>>(() =>
     parseCategoriesFromUrl(searchParams.get('categories'))
@@ -186,14 +188,27 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
             Your community calendar for rallies, marches, and civic actions.
             Stay informed. Stay safe. Make your voice heard.
           </p>
-          <Link
-            href="/get-alerts"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-medium shadow-sm hover:bg-primary/90 transition-all hover:shadow-md touch-action-manipulation"
-            data-testid="home-hero-cta"
-          >
-            <Bell className="h-4 w-4" aria-hidden="true" />
-            Get Event Alerts
-          </Link>
+          {/* Container maintains consistent height to avoid CLS */}
+          <div className="h-[42px] flex items-center justify-center" data-testid="home-hero-cta-container">
+            {pushState === 'subscribed' ? (
+              <span
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm text-muted-foreground"
+                data-testid="home-hero-alerts-enabled"
+              >
+                <Bell className="h-4 w-4" aria-hidden="true" />
+                Alerts enabled
+              </span>
+            ) : pushState !== 'loading' ? (
+              <Link
+                href="/get-alerts"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-medium shadow-sm hover:bg-primary/90 transition-all hover:shadow-md touch-action-manipulation"
+                data-testid="home-hero-cta"
+              >
+                <Bell className="h-4 w-4" aria-hidden="true" />
+                Get Event Alerts
+              </Link>
+            ) : null}
+          </div>
         </div>
       </section>
 

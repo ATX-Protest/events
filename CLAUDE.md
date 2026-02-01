@@ -19,7 +19,6 @@ npm run db:studio        # Open Drizzle Studio
 
 **Routes**:
 - `/` (home) - Event calendar and listings
-- `/events` - All events listing
 - `/events/[id]` - Individual event pages (slug-based IDs)
 - `/resources` - Resources & FAQ listing
 - `/resources/[slug]` - Individual articles (know-your-rights, etc.)

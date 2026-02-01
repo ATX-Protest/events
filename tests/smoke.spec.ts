@@ -14,12 +14,6 @@ test.describe('Smoke Tests - All Pages Load', () => {
     await expect(page.locator('[data-testid^="event-card-"]').first()).toBeVisible();
   });
 
-  test('events listing page loads', async ({ page }) => {
-    await page.goto('/events');
-    await expect(page).toHaveTitle(/All Protest Events/);
-    await expect(page.getByTestId('events-page')).toBeVisible();
-  });
-
   test('individual event page loads', async ({ page }) => {
     await page.goto('/events/march-for-democracy-2024');
     await expect(page).toHaveTitle(/March for Democracy/);

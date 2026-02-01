@@ -1,21 +1,20 @@
 import { BreadcrumbJsonLd, EventJsonLd } from '@/components/seo/json-ld';
 import { ShareBar } from '@/components/features/share';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { getProtestBySlug } from '@/db/queries/protests';
 import { protestToShareable } from '@/lib/share';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
-  Calendar,
-  Clock,
-  MapPin,
   Users,
   ExternalLink,
   ChevronLeft,
   Shield,
-  Tag,
+  CheckCircle2,
+  AlertTriangle,
+  MapPin,
+  Calendar,
 } from 'lucide-react';
 
 const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] ?? 'https://atxprotests.com';
@@ -77,6 +76,11 @@ export default async function EventPage({ params }: EventPageProps) {
     day: 'numeric',
   });
 
+  const shortDate = new Date(protest.date).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  });
+
   const categoryLabels: Record<string, string> = {
     'civil-rights': 'Civil Rights',
     environmental: 'Environmental',
@@ -93,7 +97,6 @@ export default async function EventPage({ params }: EventPageProps) {
 
   const breadcrumbs = [
     { name: 'Home', url: baseUrl },
-    { name: 'Events', url: `${baseUrl}/events` },
     { name: protest.title, url: `${baseUrl}/events/${protest.slug}` },
   ];
 
@@ -109,190 +112,251 @@ export default async function EventPage({ params }: EventPageProps) {
   };
 
   const hasPhysicalAddress = protest.locationAddress && protest.locationZip;
+  const isCancelled = protest.status === 'cancelled';
 
   return (
     <>
       <EventJsonLd protest={protest} baseUrl={baseUrl} />
       <BreadcrumbJsonLd items={breadcrumbs} />
 
-      <div className="flex flex-col gap-8" data-testid="event-page">
-        {/* Back link */}
-        <div>
-          <Button variant="ghost" size="sm" asChild className="-ml-2">
-            <Link href="/">
-              <ChevronLeft className="h-4 w-4 mr-1" />
-              Back to Events
+      <article className="flex flex-col gap-8" data-testid="event-page">
+        {/* Back navigation */}
+        <nav data-testid="event-back-nav" className="animate-fade-in mt-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            asChild
+            className="-ml-2 text-muted-foreground hover:text-foreground"
+          >
+            <Link href="/" data-testid="event-back-link">
+              <ChevronLeft className="h-4 w-4 mr-1" aria-hidden="true" />
+              All Events
             </Link>
           </Button>
-        </div>
+        </nav>
 
-        {/* Header */}
-        <header className="space-y-4">
-          <div className="flex flex-wrap gap-2">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
-              {categoryLabels[protest.category] ?? protest.category}
-            </span>
-            {protest.status === 'cancelled' && (
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-destructive/10 text-destructive">
-                Cancelled
+        {/* Hero Header */}
+        <header
+          className="relative animate-fade-in-up"
+          data-testid="event-header"
+        >
+          {/* Cancelled banner */}
+          {isCancelled && (
+            <div
+              className="flex items-center gap-2 mb-6 px-4 py-3 rounded-lg bg-destructive/10 border border-destructive/20"
+              data-testid="event-cancelled-badge"
+            >
+              <AlertTriangle className="h-5 w-5 text-destructive" aria-hidden="true" />
+              <span className="font-medium text-destructive">
+                This event has been cancelled
               </span>
-            )}
-          </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-balance">{protest.title}</h1>
-          <p className="text-lg text-muted-foreground text-pretty">{protest.description}</p>
+            </div>
+          )}
 
-          {/* Share options - allows adding to calendar or sharing event */}
-          <ShareBar event={protestToShareable(protest)} />
-        </header>
+          {/* Top row: Date badge + Title */}
+          <div className="flex items-start gap-5 mb-6">
+            {/* Date badge - sized to align with category + title height */}
+            <div
+              className="hidden sm:flex flex-col items-center justify-center w-24 h-24 rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/25"
+              data-testid="event-date-badge"
+            >
+              <span className="text-4xl font-bold leading-none">
+                {new Date(protest.date).getDate()}
+              </span>
+              <span className="text-sm font-semibold uppercase tracking-wider opacity-90 mt-1">
+                {new Date(protest.date).toLocaleDateString('en-US', { month: 'short' })}
+              </span>
+            </div>
 
-        {/* Event details grid */}
-        <div className="grid gap-6 md:grid-cols-2">
-          {/* Left: Key details */}
-          <Card>
-            <CardContent className="p-6 space-y-6">
-              <div className="flex items-start gap-4">
-                <Calendar className="h-5 w-5 text-primary mt-0.5" />
-                <div>
-                  <p className="font-medium">Date</p>
-                  <p className="text-muted-foreground">{formattedDate}</p>
-                </div>
+            <div className="flex-1 space-y-3">
+              {/* Category pill */}
+              <div className="flex flex-wrap items-center gap-2" data-testid="event-category">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
+                  {categoryLabels[protest.category] ?? protest.category}
+                </span>
+                <span className="text-sm text-muted-foreground sm:hidden">
+                  {shortDate}
+                </span>
               </div>
 
-              {!protest.isAllDay && protest.startTime && (
-                <div className="flex items-start gap-4">
-                  <Clock className="h-5 w-5 text-primary mt-0.5" />
-                  <div>
-                    <p className="font-medium">Time</p>
-                    <p className="text-muted-foreground">
+              {/* Title */}
+              <h1
+                className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-balance leading-tight ${isCancelled ? 'line-through opacity-60' : ''}`}
+                data-testid="event-title"
+              >
+                {protest.title}
+              </h1>
+            </div>
+          </div>
+
+          {/* Description */}
+          <p
+            className="text-lg md:text-xl text-muted-foreground text-pretty max-w-3xl leading-relaxed mb-6"
+            data-testid="event-description"
+          >
+            {protest.description}
+          </p>
+
+          {/* Action bar: External link + Share options - all equally weighted */}
+          <div className="flex flex-wrap items-center gap-3" data-testid="event-actions">
+            {/* External link - primary action */}
+            {protest.externalUrl && (
+              <Button asChild variant="outline" data-testid="event-external-link">
+                <a
+                  href={protest.externalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLink className="h-4 w-4 mr-2" aria-hidden="true" />
+                  Official Page
+                </a>
+              </Button>
+            )}
+            {/* Share options - equally weighted with external link */}
+            <ShareBar event={protestToShareable(protest)} />
+          </div>
+        </header>
+
+        {/* Main content grid - restructured for desktop */}
+        <div
+          className="grid gap-8 lg:grid-cols-2 lg:gap-12"
+          data-testid="event-details-grid"
+        >
+          {/* Left column: Safety info (desktop) */}
+          <div className="space-y-6 order-2 lg:order-1" data-testid="event-left-column">
+            {/* Safety card - prominent on left */}
+            {protest.safetyInfo && (
+              <div
+                className="rounded-xl bg-accent/5 border border-accent/20 p-6"
+                data-testid="event-safety-card"
+              >
+                <h2 className="font-semibold text-lg mb-4 flex items-center gap-2 text-accent">
+                  <Shield className="h-5 w-5" aria-hidden="true" />
+                  Safety Information
+                </h2>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  data-testid="event-safety-info"
+                >
+                  {protest.safetyInfo}
+                </p>
+              </div>
+            )}
+
+            {/* Requirements card */}
+            {protest.requirements && protest.requirements.length > 0 && (
+              <div
+                className="rounded-xl border-2 border-dashed border-muted-foreground/20 bg-card p-6"
+                data-testid="event-requirements-card"
+              >
+                <h2 className="font-semibold text-lg mb-4 flex items-center gap-2">
+                  <CheckCircle2 className="h-5 w-5 text-primary" aria-hidden="true" />
+                  What to Bring
+                </h2>
+                <ul
+                  className="space-y-3"
+                  data-testid="event-requirements-list"
+                >
+                  {protest.requirements.map((req, index) => (
+                    <li
+                      key={index}
+                      className="flex items-start gap-3"
+                    >
+                      <span className="mt-2 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                      <span className="text-muted-foreground">{req}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          {/* Right column: Event details + Tags */}
+          <aside className="space-y-6 order-1 lg:order-2" data-testid="event-sidebar">
+            {/* Event details card */}
+            <div
+              className="rounded-xl border bg-card p-6 space-y-5"
+              data-testid="event-details-card"
+            >
+              {/* Date & Time */}
+              <div className="flex items-start gap-4" data-testid="event-date">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Calendar className="h-5 w-5 text-primary" aria-hidden="true" />
+                </div>
+                <div className="space-y-0.5">
+                  <p className="font-medium">{formattedDate}</p>
+                  {!protest.isAllDay && protest.startTime && (
+                    <p className="text-sm text-muted-foreground" data-testid="event-time">
                       {formatTimeDisplay(protest.startTime)}
-                      {protest.endTime && ` - ${formatTimeDisplay(protest.endTime)}`}
+                      {protest.endTime && ` – ${formatTimeDisplay(protest.endTime)}`}
                     </p>
-                  </div>
-                </div>
-              )}
-
-              {protest.isAllDay && (
-                <div className="flex items-start gap-4">
-                  <Clock className="h-5 w-5 text-primary mt-0.5" />
-                  <div>
-                    <p className="font-medium">Time</p>
-                    <p className="text-muted-foreground">All Day</p>
-                  </div>
-                </div>
-              )}
-
-              <div className="flex items-start gap-4">
-                <MapPin className="h-5 w-5 text-primary mt-0.5" />
-                <div>
-                  <p className="font-medium">{protest.locationName}</p>
-                  {hasPhysicalAddress ? (
-                    <p className="text-muted-foreground">
-                      {protest.locationAddress}
-                      <br />
-                      {protest.locationCity}, {protest.locationState}{' '}
-                      {protest.locationZip}
+                  )}
+                  {protest.isAllDay && (
+                    <p className="text-sm text-muted-foreground" data-testid="event-time">
+                      All Day Event
                     </p>
-                  ) : (
-                    <p className="text-muted-foreground">Online / Location TBD</p>
                   )}
                 </div>
               </div>
 
-              <div className="flex items-start gap-4">
-                <Users className="h-5 w-5 text-primary mt-0.5" />
-                <div>
-                  <p className="font-medium">Organizer</p>
-                  <p className="text-muted-foreground">{protest.organizer}</p>
+              {/* Location */}
+              <div className="flex items-start gap-4" data-testid="event-location">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <MapPin className="h-5 w-5 text-primary" aria-hidden="true" />
+                </div>
+                <div className="space-y-0.5">
+                  <p className="font-medium">{protest.locationName}</p>
+                  {hasPhysicalAddress ? (
+                    <p className="text-sm text-muted-foreground">
+                      {protest.locationAddress}, {protest.locationCity}, {protest.locationState} {protest.locationZip}
+                    </p>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">Location details TBA</p>
+                  )}
                 </div>
               </div>
 
-              {protest.expectedAttendance && (
-                <p className="text-sm text-muted-foreground">
-                  Expected attendance: ~{protest.expectedAttendance} people
-                </p>
-              )}
+              {/* Organizer */}
+              <div className="flex items-start gap-4" data-testid="event-organizer">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <Users className="h-5 w-5 text-primary" aria-hidden="true" />
+                </div>
+                <div className="space-y-0.5">
+                  <p className="font-medium">{protest.organizer}</p>
+                  {protest.expectedAttendance && (
+                    <p
+                      className="text-sm text-muted-foreground"
+                      data-testid="event-attendance"
+                    >
+                      ~{protest.expectedAttendance.toLocaleString()} expected
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
 
-              {protest.externalUrl && (
-                <Button asChild className="w-full">
-                  <a
-                    href={protest.externalUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View Official Event Page
-                    <ExternalLink className="h-4 w-4 ml-2" />
-                  </a>
-                </Button>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Right: Requirements & Safety */}
-          <div className="space-y-6">
-            {protest.requirements && protest.requirements.length > 0 && (
-              <Card>
-                <CardContent className="p-6">
-                  <h2 className="font-semibold mb-4 flex items-center gap-2">
-                    <Tag className="h-4 w-4" />
-                    What to Bring / Know
-                  </h2>
-                  <ul className="space-y-2">
-                    {protest.requirements.map((req, index) => (
-                      <li key={index} className="flex items-start gap-2 text-sm">
-                        <span className="text-primary">-</span>
-                        <span className="text-muted-foreground">{req}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            )}
-
-            {protest.safetyInfo && (
-              <Card>
-                <CardContent className="p-6">
-                  <h2 className="font-semibold mb-4 flex items-center gap-2">
-                    <Shield className="h-4 w-4" />
-                    Safety Information
-                  </h2>
-                  <p className="text-sm text-muted-foreground">
-                    {protest.safetyInfo}
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-
+            {/* Tags */}
             {protest.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {protest.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-2 py-1 text-xs bg-muted rounded-md text-muted-foreground"
-                  >
-                    #{tag}
-                  </span>
-                ))}
+              <div className="space-y-3" data-testid="event-tags-section">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Tags
+                </p>
+                <div className="flex flex-wrap gap-2" data-testid="event-tags">
+                  {protest.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1.5 text-xs font-medium bg-muted rounded-full text-muted-foreground hover:bg-muted/80 transition-colors"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             )}
-          </div>
+          </aside>
         </div>
 
-        {/* CTA Section */}
-        <section className="bg-muted/50 rounded-lg p-6 md:p-8 text-center">
-          <h2 className="text-xl font-bold mb-2">Stay Informed</h2>
-          <p className="text-muted-foreground mb-4">
-            Get notified about event updates and new protests in Austin.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button asChild>
-              <Link href="/get-alerts">Get Alerts</Link>
-            </Button>
-            <Button variant="outline" asChild>
-              <Link href="/resources/know-your-rights">Know Your Rights</Link>
-            </Button>
-          </div>
-        </section>
-      </div>
+      </article>
     </>
   );
 }
