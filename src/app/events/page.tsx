@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getAllVisibleProtests } from '@/db/queries/protests';
+import { getCategoryLabel } from '@/lib/categories';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Calendar, MapPin, Users } from 'lucide-react';
@@ -37,20 +38,6 @@ function formatTimeDisplay(time: string | null): string {
 export default async function EventsPage() {
   const protests = await getAllVisibleProtests();
 
-  const categoryLabels: Record<string, string> = {
-    'civil-rights': 'Civil Rights',
-    environmental: 'Environmental',
-    labor: 'Labor',
-    healthcare: 'Healthcare',
-    education: 'Education',
-    housing: 'Housing',
-    immigration: 'Immigration',
-    lgbtq: 'LGBTQ+',
-    'police-reform': 'Police Reform',
-    'voting-rights': 'Voting Rights',
-    other: 'Other',
-  };
-
   return (
     <div className="flex flex-col gap-8" data-testid="events-page">
       <header className="space-y-4">
@@ -76,7 +63,7 @@ export default async function EventsPage() {
                 <CardHeader className="pb-2">
                   <div className="flex justify-between items-start">
                     <span className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary">
-                      {categoryLabels[protest.category] ?? protest.category}
+                      {getCategoryLabel(protest.category)}
                     </span>
                   </div>
                   <CardTitle className="text-lg mt-2">{protest.title}</CardTitle>

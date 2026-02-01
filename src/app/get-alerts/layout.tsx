@@ -3,13 +3,13 @@ import type { Metadata } from 'next';
 const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://atxprotests.com';
 
 export const metadata: Metadata = {
-  title: 'Get Alerts - Protest & Volunteer Notifications',
+  title: 'Get Alerts - Privacy-First Protest Notifications',
   description:
-    'Subscribe to alerts about Austin protests and volunteer opportunities. Choose SMS, email, or Signal notifications for weekly digests, rapid response alerts, and more.',
+    'Get alerts about Austin protests without sharing your email or phone number. Enable anonymous browser push notifications to stay informed about events and rapid response actions.',
   openGraph: {
     title: 'Get Alerts | ATX Protests',
     description:
-      'Stay informed about Austin protests and volunteer opportunities via SMS, email, or Signal notifications.',
+      'Privacy-first alerts for Austin protests. Browser push notifications that never collect your personal information.',
   },
   alternates: {
     canonical: `${baseUrl}/get-alerts`,

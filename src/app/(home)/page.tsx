@@ -1,5 +1,6 @@
 import { EventJsonLd } from '@/components/seo/json-ld';
 import { getUpcomingVisibleProtests } from '@/db/queries/protests';
+import { Suspense } from 'react';
 import { HomePageClient } from './home-client';
 
 // Dynamic rendering - database queries happen at request time
@@ -19,7 +20,10 @@ export default async function HomePage() {
       ))}
 
       {/* Client component handles interactivity, but receives server-rendered data */}
-      <HomePageClient initialProtests={protests} />
+      {/* Suspense required for useSearchParams */}
+      <Suspense>
+        <HomePageClient initialProtests={protests} />
+      </Suspense>
     </>
   );
 }
