@@ -226,8 +226,8 @@ export default async function EventPage({ params }: EventPageProps) {
           className="grid gap-8 lg:grid-cols-2 lg:gap-12"
           data-testid="event-details-grid"
         >
-          {/* Left column: Safety info (desktop) */}
-          <div className="space-y-6 order-2 lg:order-1" data-testid="event-left-column">
+          {/* Right column: Safety info (desktop) */}
+          <div className="space-y-6 order-2 lg:order-2" data-testid="event-safety-column">
             {/* Safety card - always shown with default message if no custom info */}
             <div
               className="rounded-xl bg-accent/5 border border-accent/20 p-6"
@@ -274,8 +274,8 @@ export default async function EventPage({ params }: EventPageProps) {
             )}
           </div>
 
-          {/* Right column: Event details + Tags */}
-          <aside className="space-y-6 order-1 lg:order-2" data-testid="event-sidebar">
+          {/* Left column: Event details + Tags */}
+          <aside className="space-y-6 order-1 lg:order-1" data-testid="event-sidebar">
             {/* Event details card */}
             <div
               className="rounded-xl border bg-card p-6 space-y-5"
