@@ -16,7 +16,6 @@ export interface Protest {
     zip: string;
   };
   organizer: string;
-  organizerContact?: string;
   expectedAttendance?: number;
   status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
   category: ProtestCategory;

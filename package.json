@@ -27,10 +27,10 @@
         "db:migrate": "drizzle-kit migrate",
         "db:push": "drizzle-kit push",
         "db:studio": "drizzle-kit studio",
-        "db:branch:create": "neonctl branches create --project-id spring-night-86511482 --name",
-        "db:branch:list": "neonctl branches list --project-id spring-night-86511482",
-        "db:branch:delete": "neonctl branches delete --project-id spring-night-86511482",
-        "db:branch:info": "neonctl branches get --project-id spring-night-86511482",
+        "db:branch:create": "neonctl branches create --project-id quiet-voice-34349029 --name",
+        "db:branch:list": "neonctl branches list --project-id quiet-voice-34349029",
+        "db:branch:delete": "neonctl branches delete --project-id quiet-voice-34349029",
+        "db:branch:info": "neonctl branches get --project-id quiet-voice-34349029",
         "ai:cleanup": "bash scripts/clean-ai-archive.sh"
     },
     "dependencies": {

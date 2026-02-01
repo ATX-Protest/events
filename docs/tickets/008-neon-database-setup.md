@@ -1,6 +1,6 @@
 # 008: Neon Database Setup
 
-**Status:** In Progress
+**Status:** Done
 **Priority:** High
 
 ## Summary
@@ -9,27 +9,32 @@ Initialize Neon PostgreSQL database for the project, replacing static data files
 
 ## Tasks
 
-- [ ] Run `npx neonctl@latest init` and complete interactive setup
-- [ ] Select editor integrations (VS Code recommended)
-- [ ] Verify `.env.development.local` has `DATABASE_URL`
-- [ ] Run `npm run db:push` to push schema
-- [ ] Test connection with `npm run db:studio`
+- [x] Create Neon project (`atxprotests` on quiet-voice-34349029)
+- [x] Configure `.env.development.local` with `DATABASE_URL`
+- [x] Create Drizzle schema (`src/db/schema/index.ts`)
+- [x] Run `npm run db:push` to push schema
+- [x] Verify tables created in Neon
 
-## Current Data Files (to migrate)
+## Schema Created
 
-- `src/data/protests.ts` - Event data
-- `src/data/resources-articles.ts` - FAQ/article content
+Tables:
+- `protests` - Events with location, organizer, status, category, tags
+- `resources` - Know-your-rights articles and resources
+- `updates` - Announcements and alerts
+- `volunteer_opportunities` - Volunteer signups
 
-## Schema Considerations
+## Files Created/Modified
 
-Tables needed:
-- `events` - Protests/rallies with date, location, description
-- `articles` - Resources/FAQ content
-- `push_subscriptions` - For web push notifications (ticket #005)
+- `.env.development.local` - Database connection string
+- `src/db/schema/index.ts` - Drizzle schema with all tables and types
+- `src/lib/db.ts` - Already existed, uses `@neondatabase/serverless`
 
 ## Acceptance Criteria
 
-- Neon database connected and working
-- Schema pushed successfully
-- Can view data in Drizzle Studio
-- Environment variables documented
+- [x] Neon database connected and working
+- [x] Schema pushed successfully
+- [x] Environment variables configured
+
+## Next Steps
+
+See [009-database-integration.md](./009-database-integration.md) for integrating the database into the application.

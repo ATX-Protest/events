@@ -173,11 +173,6 @@ export default async function EventPage({ params }: EventPageProps) {
                 <div>
                   <p className="font-medium">Organizer</p>
                   <p className="text-muted-foreground">{protest.organizer}</p>
-                  {protest.organizerContact && (
-                    <p className="text-sm text-muted-foreground">
-                      {protest.organizerContact}
-                    </p>
-                  )}
                 </div>
               </div>
 

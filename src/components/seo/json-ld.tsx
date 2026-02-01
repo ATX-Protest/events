@@ -51,7 +51,6 @@ export function EventJsonLd({ protest, baseUrl }: EventJsonLdProps) {
     organizer: {
       '@type': 'Organization',
       name: protest.organizer,
-      ...(protest.organizerContact && { email: protest.organizerContact }),
       ...(protest.externalUrl && { url: protest.externalUrl }),
     },
     ...(protest.expectedAttendance && {

@@ -1,6 +1,6 @@
 # 007: Cloudflare DDoS & Bot Protection
 
-**Status:** Research
+**Status:** Done
 **Priority:** High
 
 ## Goal
@@ -81,34 +81,42 @@ Action: Challenge
 
 ### 6. Rate Limiting (1 free rule)
 
-Protect form submissions:
+Protect API endpoints:
 ```
-URL: /api/*
-Requests: 100 per minute per IP
-Action: Block for 1 hour
+Expression: (http.request.uri.path starts_with "/api/")
+Requests: 50 per 10 seconds per IP
+Action: Block for 10 seconds
+```
+
+### 7. Geo-Restriction
+
+Block non-US traffic:
+```
+Expression: (ip.geoip.country ne "US")
+Action: Block
 ```
 
 ## Tasks
 
-- [ ] Audit current Cloudflare settings
-- [ ] Enable Bot Fight Mode
-- [ ] Enable Browser Integrity Check
-- [ ] Set appropriate Security Level
-- [ ] Configure 5 firewall rules
-- [ ] Set up rate limiting for API routes
-- [ ] Document emergency procedures (Under Attack Mode)
-- [ ] Evaluate if Pro tier is needed
+- [x] Audit current Cloudflare settings
+- [x] Enable Bot Fight Mode
+- [x] Enable Browser Integrity Check
+- [x] Set appropriate Security Level
+- [x] Configure firewall rules (geo-restriction to US only)
+- [x] Set up rate limiting for API routes (50 req/10s)
+- [x] Document emergency procedures (Under Attack Mode)
+- [x] Evaluate if Pro tier is needed (staying on Free for now)
 
 ## Monitoring
 
-- [ ] Set up Cloudflare email alerts for attacks
-- [ ] Review Security Analytics weekly
-- [ ] Document incident response plan
+- [x] Set up Cloudflare email alerts for attacks
+- [x] Review Security Analytics weekly
+- [x] Document incident response plan (Under Attack Mode for emergencies)
 
 ## Acceptance Criteria
 
-- Bot Fight Mode enabled
-- Firewall rules configured
-- Rate limiting on API endpoints
-- Emergency procedures documented
-- Decision made on Free vs Pro tier
+- [x] Bot Fight Mode enabled
+- [x] Firewall rules configured (geo-restriction to US)
+- [x] Rate limiting on API endpoints (50/10s)
+- [x] Emergency procedures documented (Under Attack Mode)
+- [x] Decision made on Free vs Pro tier (Free tier sufficient)
