@@ -34,8 +34,8 @@ Replace static mock data with database queries. Migrate from `src/data/*.ts` fil
 
 - [x] Schema changes: `isHidden`, `isAllDay` columns, nullable `startTime`/`locationAddress`/`locationZip`
 - [x] Validation schema: `src/lib/validations/event.ts` (Zod v4)
-- [x] Server actions: `src/app/share-event/actions.ts` (password-protected CRUD)
-- [x] Admin UI: `src/app/share-event/page.tsx` (create, edit, hide, delete events)
+- [x] Server actions: `src/app/admin/event/actions.ts` (password-protected CRUD)
+- [x] Admin UI: `src/app/admin/event/page.tsx` (create, edit, hide, delete events)
 - [x] Hidden events filtered from public views and sitemap
 
 ## Technical Notes

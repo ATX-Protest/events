@@ -23,7 +23,8 @@ npm run db:studio        # Open Drizzle Studio
 - `/events/[id]` - Individual event pages (slug-based IDs)
 - `/resources` - Resources & FAQ listing
 - `/resources/[slug]` - Individual articles (know-your-rights, etc.)
-- `/share-event`, `/get-alerts`, `/action-hub`, `/partner`
+- `/admin/event` - Event administration (password-protected)
+- `/get-alerts`, `/action-hub`, `/partner`
 
 **Key directories**:
 - `src/app/` - Pages and layouts (App Router)
@@ -137,7 +138,7 @@ Current tickets:
 
 **Environment Variables** (required for production):
 - `DATABASE_URL` - Neon PostgreSQL connection string
-- `EVENT_ADMIN_PASSWORD` - Admin password for `/share-event` (generate with `openssl rand -base64 32`)
+- `EVENT_ADMIN_PASSWORD` - Admin password for `/admin/event` (generate with `openssl rand -base64 32`)
 
 ## Docs
 

@@ -95,7 +95,7 @@ export default function PartnerPage() {
           on how to apply.
         </p>
         <Button asChild>
-          <Link href="/share-event">Submit an Event in the Meantime</Link>
+          <Link href="/admin/event">Submit an Event in the Meantime</Link>
         </Button>
       </section>
     </div>

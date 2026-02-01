@@ -115,7 +115,7 @@ export default async function EventsPage() {
         <div className="text-center py-12">
           <p className="text-muted-foreground">
             No upcoming events at this time. Check back soon or{' '}
-            <Link href="/share-event" className="text-primary hover:underline">
+            <Link href="/admin/event" className="text-primary hover:underline">
               submit an event
             </Link>
             .

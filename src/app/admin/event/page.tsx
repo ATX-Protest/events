@@ -77,7 +77,7 @@ const initialFormData: FormData = {
   tags: '',
 };
 
-export default function ShareEventPage() {
+export default function AdminEventPage() {
   const { toast } = useToast();
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -274,7 +274,7 @@ export default function ShareEventPage() {
   const selectedEvent = events.find((e) => e.id === selectedEventId);
 
   return (
-    <div className="flex flex-col gap-8 md:gap-12" data-testid="share-event-page">
+    <div className="flex flex-col gap-8 md:gap-12" data-testid="admin-event-page">
       <header>
         <h1 className="text-3xl md:text-4xl font-bold mb-4">Event Administration</h1>
         <p className="text-muted-foreground">
@@ -356,7 +356,7 @@ export default function ShareEventPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <form onSubmit={(e) => void handleSubmit(e)} className="space-y-6" data-testid="share-event-form">
+              <form onSubmit={(e) => void handleSubmit(e)} className="space-y-6" data-testid="admin-event-form">
                 {/* Title & Slug */}
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">

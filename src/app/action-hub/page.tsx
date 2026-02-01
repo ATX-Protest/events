@@ -57,7 +57,7 @@ export default function ActionHubPage() {
         </Card>
 
         <Card className="hover:shadow-md transition-shadow">
-          <Link href="/share-event">
+          <Link href="/admin/event">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users className="h-5 w-5 text-primary" />

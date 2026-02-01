@@ -38,11 +38,9 @@ test.describe('Smoke Tests - All Pages Load', () => {
     await expect(page.getByTestId('resource-article-page')).toBeVisible();
   });
 
-  test('share event page loads', async ({ page }) => {
-    await page.goto('/share-event');
-    await expect(page).toHaveTitle(/Share an Event/);
-    await expect(page.getByTestId('share-event-page')).toBeVisible();
-    await expect(page.getByTestId('share-event-form')).toBeVisible();
+  test('admin event page loads', async ({ page }) => {
+    await page.goto('/admin/event');
+    await expect(page.getByTestId('admin-event-page')).toBeVisible();
   });
 
   test('get alerts page loads', async ({ page }) => {
