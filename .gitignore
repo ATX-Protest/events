@@ -63,6 +63,7 @@ dev-server.log
 ai/archive/
 tmp/
 temp/
+.playwright-mcp/
 
 # Drizzle
 drizzle/schema.ts
