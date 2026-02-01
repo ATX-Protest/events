@@ -51,6 +51,23 @@ npm run db:studio        # Open Drizzle Studio
 - All components need `data-testid` for Playwright
 - Conventional commits: `feat:`, `fix:`, `refactor:`
 - PR workflow only, no direct pushes to main
+- **Document the "why"**: Add inline comments explaining non-obvious decisions when context is known during development (see AGENT.md for details)
+
+## UI/UX Standards
+
+**After making UI changes**, run `/web-design-guidelines` to audit against Web Interface Guidelines. This catches:
+- Accessibility issues (missing `aria-hidden`, labels, focus states)
+- Form problems (missing `autocomplete`, input types)
+- Typography (use `text-balance` on headings, `text-pretty` on body text)
+- Touch/mobile (use `touch-action-manipulation` on buttons)
+- Dark mode (`color-scheme` on `<html>`)
+
+**Key patterns to follow**:
+- Add `aria-hidden="true"` to all decorative icons (Lucide icons used alongside text)
+- Buttons need visible focus rings (`focus-visible:ring-2 focus-visible:ring-ring`)
+- Footer/nav links should have `hover:underline` for clear affordance
+- Cards should have `hover:border-primary/20 transition-all` for better feedback
+- Use `→` not `&rarr;` for arrow characters
 
 ## Workflow
 

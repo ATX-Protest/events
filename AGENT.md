@@ -893,6 +893,53 @@ export async function POST(request: Request) {
 - Document API endpoints and their contracts
 - Keep this CLAUDE.md file updated with project-specific notes
 
+### Inline Code Documentation: Capture the "Why"
+
+**When building or modifying features, add inline comments that explain the reasoning behind non-obvious decisions.** This context is invaluable for future developers (human or AI) who won't have access to the original requirements or discussions.
+
+**✅ DO: Document the "why" when context is known**
+```typescript
+// Using 50ms debounce because faster triggers cause API rate limiting
+// from Cloudflare's 50 req/10s rule (see ticket 007)
+const debouncedSearch = useDebouncedCallback(search, 50);
+
+// Deliberately not using React.memo here - component re-renders are cheap
+// and the prop comparison cost exceeds the render cost for this simple UI
+function EventCard({ event }: Props) { ... }
+
+// US-only geo-restriction handled at Cloudflare level, but we double-check
+// here for defense-in-depth (user requested after DDoS incident Jan 2025)
+if (!isUSRegion(request)) return ApiResponse.error('Unavailable', 403);
+
+// Using slug-based IDs instead of numeric IDs for SEO-friendly URLs
+// per SEO audit recommendations (see docs/seo.md)
+const eventSlug = generateSlug(event.title, event.date);
+```
+
+**❌ DON'T: State the obvious or skip context**
+```typescript
+// Debounce the search (obvious - says what, not why)
+const debouncedSearch = useDebouncedCallback(search, 50);
+
+// Check region (missing the reasoning)
+if (!isUSRegion(request)) return ApiResponse.error('Unavailable', 403);
+```
+
+**When to add "why" comments:**
+- Workarounds for bugs or limitations (link to issue if possible)
+- Business logic that comes from requirements or user requests
+- Performance decisions with measured tradeoffs
+- Security measures and their threat models
+- Deviations from standard patterns (explain why the exception)
+- Integration constraints from external services
+- Values that look like magic numbers (explain derivation)
+
+**When NOT to add comments:**
+- Self-explanatory code with good naming
+- Standard patterns that follow project conventions
+- Type annotations (TypeScript handles this)
+- What the code does (the code itself shows this)
+
 ---
 
 ## ⚡ Pro Tips for Next.js 15
