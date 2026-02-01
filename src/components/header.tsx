@@ -26,7 +26,7 @@ export default function Header() {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary">
-              <Megaphone className="h-5 w-5 text-primary-foreground" />
+              <Megaphone className="h-5 w-5 text-primary-foreground" aria-hidden="true" />
             </div>
             <Link href="/" className="flex items-center" data-testid="header-logo">
               <span className="text-xl font-bold">ATX</span>
@@ -58,15 +58,15 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             type="button"
-            className="md:hidden p-2 -mr-2"
+            className="md:hidden p-2 -mr-2 touch-action-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-md"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             data-testid="mobile-menu-button"
           >
             {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
+              <X className="h-6 w-6" aria-hidden="true" />
             ) : (
-              <Menu className="h-6 w-6" />
+              <Menu className="h-6 w-6" aria-hidden="true" />
             )}
           </button>
         </div>

@@ -53,10 +53,10 @@ export default function FAQPage() {
 
       <div className="flex flex-col gap-8" data-testid="resources-page">
         <header className="space-y-4">
-          <h1 className="text-3xl md:text-4xl font-bold">
+          <h1 className="text-3xl md:text-4xl font-bold text-balance">
             Protest Resources & FAQ
           </h1>
-          <p className="text-lg text-muted-foreground max-w-3xl">
+          <p className="text-lg text-muted-foreground max-w-3xl text-pretty">
             Essential guides for protesters in Austin, Texas. Know your rights,
             prepare for demonstrations, stay safe, and find legal support when you
             need it.
@@ -82,7 +82,7 @@ export default function FAQPage() {
                 <CardContent>
                   <p className="text-muted-foreground">{article.description}</p>
                   <p className="text-sm text-primary mt-4 font-medium">
-                    Read guide &rarr;
+                    Read guide →
                   </p>
                 </CardContent>
               </Link>
@@ -102,12 +102,13 @@ export default function FAQPage() {
               >
                 <summary className="flex cursor-pointer items-center justify-between p-4 font-medium">
                   {faq.question}
-                  <span className="ml-2 transition-transform group-open:rotate-180">
+                  <span className="ml-2 transition-transform group-open:rotate-180" aria-hidden="true">
                     <svg
                       className="h-5 w-5"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
+                      aria-hidden="true"
                     >
                       <path
                         strokeLinecap="round"

@@ -86,7 +86,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const isSignedIn = false;
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning style={{ colorScheme: 'light dark' }}>
       <head>
         <GoogleTagManager />
         <OrganizationJsonLd baseUrl={baseUrl} />

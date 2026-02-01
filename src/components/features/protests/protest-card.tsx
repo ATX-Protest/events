@@ -64,23 +64,23 @@ export function ProtestCard({ protest }: ProtestCardProps) {
       </CardHeader>
       <CardContent className="flex-1 space-y-2 text-sm">
         <div className="flex items-center gap-2 text-muted-foreground">
-          <Calendar className="h-4 w-4 shrink-0" />
+          <Calendar className="h-4 w-4 shrink-0" aria-hidden="true" />
           <span>{formatDate(protest.date)}</span>
         </div>
         <div className="flex items-center gap-2 text-muted-foreground">
-          <Clock className="h-4 w-4 shrink-0" />
+          <Clock className="h-4 w-4 shrink-0" aria-hidden="true" />
           <span>
             {protest.startTime}
             {protest.endTime && ` - ${protest.endTime}`}
           </span>
         </div>
         <div className="flex items-center gap-2 text-muted-foreground">
-          <MapPin className="h-4 w-4 shrink-0" />
+          <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
           <span className="line-clamp-1">{protest.location.name}</span>
         </div>
         {protest.expectedAttendance && (
           <div className="flex items-center gap-2 text-muted-foreground">
-            <Users className="h-4 w-4 shrink-0" />
+            <Users className="h-4 w-4 shrink-0" aria-hidden="true" />
             <span>{protest.expectedAttendance}+ expected</span>
           </div>
         )}

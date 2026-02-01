@@ -134,4 +134,9 @@
   .bg-safety {
     background-color: hsl(var(--accent) / 0.1);
   }
+
+  /* Touch optimization - removes 300ms tap delay on mobile */
+  .touch-action-manipulation {
+    touch-action: manipulation;
+  }
 }

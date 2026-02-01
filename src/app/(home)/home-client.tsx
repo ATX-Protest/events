@@ -161,10 +161,10 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
     <div className="flex flex-col gap-8 md:gap-12" data-testid="home-page">
       {/* Hero Section */}
       <section className="text-center py-4 md:py-8">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-balance">
           Find Upcoming Protests in Austin, TX
         </h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
           Stay informed about local protests and civic actions
         </p>
       </section>
@@ -183,7 +183,7 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
                 data-testid="category-dropdown-trigger"
               >
                 <span className="truncate">{categoryButtonLabel}</span>
-                <ChevronDown className={`h-4 w-4 ml-2 transition-transform ${categoryDropdownOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`h-4 w-4 ml-2 transition-transform ${categoryDropdownOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
               </Button>
 
               {categoryDropdownOpen && (
@@ -230,6 +230,7 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 className="h-9 w-[140px]"
+                autoComplete="off"
                 data-testid="start-date-filter"
               />
             </div>
@@ -244,6 +245,7 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
                 className="h-9 w-[140px]"
+                autoComplete="off"
                 data-testid="end-date-filter"
               />
             </div>
@@ -257,7 +259,7 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
                 className="text-muted-foreground hover:text-foreground"
                 data-testid="clear-filters"
               >
-                <X className="h-4 w-4 mr-1" />
+                <X className="h-4 w-4 mr-1" aria-hidden="true" />
                 Clear
               </Button>
             )}
@@ -289,7 +291,7 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
                     </div>
                     <div className="space-y-1 text-sm text-muted-foreground">
                       <div className="flex items-center gap-2">
-                        <CalendarIcon className="h-4 w-4" />
+                        <CalendarIcon className="h-4 w-4" aria-hidden="true" />
                         <span>
                           {new Date(protest.date).toLocaleDateString('en-US', {
                             weekday: 'long',
@@ -299,7 +301,7 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4" />
+                        <Clock className="h-4 w-4" aria-hidden="true" />
                         <span>
                           {protest.isAllDay
                             ? 'All Day'
@@ -307,7 +309,7 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4" />
+                        <MapPin className="h-4 w-4" aria-hidden="true" />
                         <span>{protest.locationName}</span>
                       </div>
                     </div>
@@ -325,7 +327,7 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
           <div className="flex-shrink-0">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary">
-              <Megaphone className="h-8 w-8 text-primary-foreground" />
+              <Megaphone className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
             </div>
           </div>
           <div>

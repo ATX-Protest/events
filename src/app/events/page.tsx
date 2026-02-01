@@ -41,10 +41,10 @@ export default async function EventsPage() {
   return (
     <div className="flex flex-col gap-8" data-testid="events-page">
       <header className="space-y-4">
-        <h1 className="text-3xl md:text-4xl font-bold">
+        <h1 className="text-3xl md:text-4xl font-bold text-balance">
           Upcoming Protests & Events in Austin
         </h1>
-        <p className="text-lg text-muted-foreground">
+        <p className="text-lg text-muted-foreground text-pretty">
           Find protests, rallies, marches, and civic actions happening in Austin, Texas.
         </p>
       </header>
@@ -58,7 +58,7 @@ export default async function EventsPage() {
           });
 
           return (
-            <Card key={protest.id} className="hover:shadow-md transition-shadow">
+            <Card key={protest.id} className="hover:shadow-md hover:border-primary/20 transition-all">
               <Link href={`/events/${protest.slug}`}>
                 <CardHeader className="pb-2">
                   <div className="flex justify-between items-start">
@@ -73,7 +73,7 @@ export default async function EventsPage() {
                     {protest.description}
                   </p>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Calendar className="h-4 w-4" />
+                    <Calendar className="h-4 w-4" aria-hidden="true" />
                     <span>
                       {formattedDate}
                       {protest.isAllDay
@@ -84,11 +84,11 @@ export default async function EventsPage() {
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <MapPin className="h-4 w-4" />
+                    <MapPin className="h-4 w-4" aria-hidden="true" />
                     <span>{protest.locationName}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Users className="h-4 w-4" />
+                    <Users className="h-4 w-4" aria-hidden="true" />
                     <span>{protest.organizer}</span>
                   </div>
                 </CardContent>
