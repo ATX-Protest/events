@@ -1,6 +1,6 @@
 # 005: Web Push Notifications (Zero PII)
 
-**Status:** Research
+**Status:** Done
 **Priority:** High
 
 ## Goal

@@ -18,7 +18,7 @@ Work items and tasks for the project. Each ticket is a markdown file with status
 | [002](./002-analytics-gtm-ga4.md) | Google Analytics & Tag Manager | In Progress | High |
 | [003](./003-search-console-verification.md) | Google Search Console Verification | Todo | Low |
 | [004](./004-add-to-homescreen.md) | Add to Home Screen (PWA) | Research | Medium |
-| [005](./005-web-push-notifications.md) | Web Push Notifications | Research | High |
+| [012](./012-advanced-push-notifications.md) | Advanced Push Notifications | Todo | Medium |
 | [006](./006-secure-alert-channels.md) | Telegram Alert Channel | Todo | High |
 | [009](./009-database-integration.md) | Database Integration | Todo | High |
 | [010](./010-contact-form.md) | Contact Form (Replace Email Exposure) | Todo | Medium |
@@ -27,6 +27,7 @@ Work items and tasks for the project. Each ticket is a markdown file with status
 
 | # | Title | Completed |
 |---|-------|-----------|
+| [005](./005-web-push-notifications.md) | Web Push Notifications | 2026-02-01 |
 | [007](./007-cloudflare-security.md) | Cloudflare DDoS & Bot Protection | 2026-02-01 |
 | [008](./008-neon-database-setup.md) | Neon Database Setup | 2026-02-01 |
 
