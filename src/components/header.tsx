@@ -1,10 +1,9 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { Menu, Megaphone, X, Bell } from 'lucide-react';
+import { Megaphone, Bell } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
 
 const navItems = [
   { href: '/', label: 'Events' },
@@ -14,7 +13,6 @@ const navItems = [
 
 export default function Header() {
   const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header
@@ -22,6 +20,7 @@ export default function Header() {
       data-testid="header"
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6">
+        {/* Desktop: single row with logo and nav */}
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link
@@ -38,7 +37,7 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - inline with logo */}
           <nav className="hidden md:flex items-center gap-1" data-testid="desktop-nav">
             {navItems.map((item) => {
               const isActive = item.href === '/'
@@ -80,61 +79,49 @@ export default function Header() {
               );
             })}
           </nav>
-
-          {/* Mobile Menu Button */}
-          <button
-            type="button"
-            className="md:hidden flex items-center justify-center h-10 w-10 rounded-lg hover:bg-muted transition-colors touch-action-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileMenuOpen}
-            data-testid="mobile-menu-button"
-          >
-            {mobileMenuOpen ? (
-              <X className="h-5 w-5" aria-hidden="true" />
-            ) : (
-              <Menu className="h-5 w-5" aria-hidden="true" />
-            )}
-          </button>
         </div>
-      </div>
 
-      {/* Mobile Menu Drawer */}
-      <div
-        className={cn(
-          'md:hidden border-t bg-background overflow-hidden transition-all duration-200 ease-out',
-          mobileMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
-        )}
-        data-testid="mobile-menu"
-        aria-hidden={!mobileMenuOpen}
-      >
-        <nav className="max-w-7xl mx-auto px-4 md:px-6 py-3">
-          <div className="flex flex-col gap-1">
-            {navItems.map((item) => {
-              const isActive = item.href === '/'
-                ? pathname === '/'
-                : pathname === item.href || pathname.startsWith(`${item.href}/`);
+        {/* Mobile Navigation - always visible as second row */}
+        <nav className="md:hidden flex items-center justify-center gap-1 pb-3 -mt-1" data-testid="mobile-nav">
+          {navItems.map((item) => {
+            const isActive = item.href === '/'
+              ? pathname === '/'
+              : pathname === item.href || pathname.startsWith(`${item.href}/`);
 
+            if (item.highlight) {
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'flex items-center gap-2 px-4 py-3 rounded-lg text-base font-medium transition-colors touch-action-manipulation',
-                    isActive
-                      ? 'bg-primary/10 text-primary'
-                      : 'text-foreground hover:bg-muted',
-                    item.highlight && !isActive && 'text-primary'
+                    'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all touch-action-manipulation',
+                    'bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground',
+                    isActive && 'bg-primary text-primary-foreground'
                   )}
-                  onClick={() => setMobileMenuOpen(false)}
                   data-testid={`mobile-nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
                 >
-                  {item.highlight && <Bell className="h-4 w-4" aria-hidden="true" />}
+                  <Bell className="h-3.5 w-3.5" aria-hidden="true" />
                   {item.label}
                 </Link>
               );
-            })}
-          </div>
+            }
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors touch-action-manipulation',
+                  isActive
+                    ? 'bg-muted text-foreground'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                )}
+                data-testid={`mobile-nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
       </div>
     </header>

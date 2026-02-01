@@ -169,12 +169,16 @@ export default async function EventPage({ params }: EventPageProps) {
             </div>
 
             <div className="flex-1 space-y-3">
-              {/* Category pill */}
+              {/* Category + Date pill (mobile) */}
               <div className="flex flex-wrap items-center gap-2" data-testid="event-category">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
                   {categoryLabels[protest.category] ?? protest.category}
                 </span>
-                <span className="text-sm text-muted-foreground sm:hidden">
+                {/* Mobile date pill - bright orange background */}
+                <span
+                  className="sm:hidden inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary text-primary-foreground"
+                  data-testid="event-date-mobile"
+                >
                   {shortDate}
                 </span>
               </div>
@@ -189,17 +193,9 @@ export default async function EventPage({ params }: EventPageProps) {
             </div>
           </div>
 
-          {/* Description */}
-          <p
-            className="text-lg md:text-xl text-muted-foreground text-pretty max-w-3xl leading-relaxed mb-6"
-            data-testid="event-description"
-          >
-            {protest.description}
-          </p>
-
-          {/* Action bar: External link + Share options - all equally weighted */}
-          <div className="flex flex-wrap items-center gap-3" data-testid="event-actions">
-            {/* External link - primary action */}
+          {/* Action bar: External link + Share options - all in one row */}
+          <div className="flex flex-wrap items-center gap-3 mb-6" data-testid="event-actions">
+            {/* External link */}
             {protest.externalUrl && (
               <Button asChild variant="outline" data-testid="event-external-link">
                 <a
@@ -212,9 +208,17 @@ export default async function EventPage({ params }: EventPageProps) {
                 </a>
               </Button>
             )}
-            {/* Share options - equally weighted with external link */}
+            {/* Share options - inline with external link */}
             <ShareBar event={protestToShareable(protest)} />
           </div>
+
+          {/* Description */}
+          <p
+            className="text-lg md:text-xl text-muted-foreground text-pretty max-w-3xl leading-relaxed"
+            data-testid="event-description"
+          >
+            {protest.description}
+          </p>
         </header>
 
         {/* Main content grid - restructured for desktop */}

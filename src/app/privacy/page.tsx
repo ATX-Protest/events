@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ShieldCheck } from 'lucide-react';
 
 const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] ?? 'https://atxprotests.com';
 
@@ -13,15 +14,29 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="flex flex-col gap-8 max-w-3xl mx-auto" data-testid="privacy-page">
-      <header>
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">Privacy Policy</h1>
-        <p className="text-muted-foreground">Last updated: February 2026</p>
-      </header>
+    <div className="flex flex-col gap-8 md:gap-12" data-testid="privacy-page">
+      {/* Hero Section */}
+      <section className="relative py-6 md:py-10 hero-gradient -mx-4 px-4 md:-mx-6 md:px-6" data-testid="privacy-hero">
+        <div className="max-w-3xl mx-auto text-center animate-fade-in">
+          <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-primary mb-4 shadow-lg" data-testid="privacy-hero-icon">
+            <ShieldCheck className="h-7 w-7 text-primary-foreground" aria-hidden="true" />
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-balance tracking-tight" data-testid="privacy-hero-title">
+            Privacy{' '}
+            <span className="text-gradient">Policy</span>
+          </h1>
+          <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto text-pretty" data-testid="privacy-hero-description">
+            How we collect, use, and protect your information when you use our service.
+          </p>
+          <p className="text-sm text-muted-foreground mt-3" data-testid="privacy-hero-updated">
+            Last updated: February 2026
+          </p>
+        </div>
+      </section>
 
-      <div className="prose prose-neutral dark:prose-invert max-w-none space-y-8">
+      <div className="prose prose-neutral dark:prose-invert max-w-3xl mx-auto space-y-8 animate-fade-in stagger-1" data-testid="privacy-content">
         <section>
-          <h2 className="text-2xl font-semibold mb-4">Overview</h2>
+          <h2 className="text-2xl font-semibold mb-4" data-testid="privacy-section-overview">Overview</h2>
           <p className="text-muted-foreground">
             ATX Protests (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is committed to protecting your
             privacy. This policy explains how we collect, use, and safeguard your

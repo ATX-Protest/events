@@ -92,7 +92,7 @@ export function ShareBar({ event }: ShareBarProps) {
 
   return (
     <div
-      className="flex flex-wrap items-center gap-3"
+      className="contents"
       data-testid="share-bar"
     >
       {/* Add to Calendar dropdown */}

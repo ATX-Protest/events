@@ -497,14 +497,6 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
                 Know Your Rights
                 <ChevronRight className="h-4 w-4" aria-hidden="true" />
               </Link>
-              <Link
-                href="/get-alerts"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors touch-action-manipulation"
-                data-testid="about-alerts-link"
-              >
-                <Bell className="h-4 w-4" aria-hidden="true" />
-                Get Alerts
-              </Link>
             </div>
           </div>
         </div>

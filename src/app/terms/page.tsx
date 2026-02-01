@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { FileText } from 'lucide-react';
 
 const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] ?? 'https://atxprotests.com';
 
@@ -13,15 +14,29 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="flex flex-col gap-8 max-w-3xl mx-auto" data-testid="terms-page">
-      <header>
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">Terms of Service</h1>
-        <p className="text-muted-foreground">Last updated: January 2025</p>
-      </header>
+    <div className="flex flex-col gap-8 md:gap-12" data-testid="terms-page">
+      {/* Hero Section */}
+      <section className="relative py-6 md:py-10 hero-gradient -mx-4 px-4 md:-mx-6 md:px-6" data-testid="terms-hero">
+        <div className="max-w-3xl mx-auto text-center animate-fade-in">
+          <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-primary mb-4 shadow-lg" data-testid="terms-hero-icon">
+            <FileText className="h-7 w-7 text-primary-foreground" aria-hidden="true" />
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4 text-balance tracking-tight" data-testid="terms-hero-title">
+            Terms of{' '}
+            <span className="text-gradient">Service</span>
+          </h1>
+          <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto text-pretty" data-testid="terms-hero-description">
+            The terms and conditions for using our website and services.
+          </p>
+          <p className="text-sm text-muted-foreground mt-3" data-testid="terms-hero-updated">
+            Last updated: January 2025
+          </p>
+        </div>
+      </section>
 
-      <div className="prose prose-neutral dark:prose-invert max-w-none space-y-8">
+      <div className="prose prose-neutral dark:prose-invert max-w-3xl mx-auto space-y-8 animate-fade-in stagger-1" data-testid="terms-content">
         <section>
-          <h2 className="text-2xl font-semibold mb-4">Agreement to Terms</h2>
+          <h2 className="text-2xl font-semibold mb-4" data-testid="terms-section-agreement">Agreement to Terms</h2>
           <p className="text-muted-foreground">
             By accessing or using ATX Protests, you agree to be bound by these Terms of
             Service. If you do not agree to these terms, please do not use our service.

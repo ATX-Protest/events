@@ -1,13 +1,8 @@
 import { Megaphone, Heart } from 'lucide-react';
 import Link from 'next/link';
 
-const footerLinks = [
-  { href: '/resources', label: 'Resources' },
-  { href: '/get-alerts', label: 'Get Alerts' },
-  { href: '/partner', label: 'Partner' },
-];
-
 const legalLinks = [
+  { href: '/partner', label: 'Partner' },
   { href: '/privacy', label: 'Privacy' },
   { href: '/terms', label: 'Terms' },
 ];
@@ -41,20 +36,6 @@ export function Footer() {
                 Supporting peaceful civic action in Austin, Texas. Stay informed, stay safe, make your voice heard.
               </p>
             </div>
-
-            {/* Navigation */}
-            <nav className="flex flex-wrap gap-x-8 gap-y-3" data-testid="footer-nav">
-              {footerLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors link-underline"
-                  data-testid={`footer-link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
           </div>
 
           {/* Divider */}
