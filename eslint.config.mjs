@@ -101,10 +101,9 @@ export default tseslint.config(
     },
   },
 
-  // Test files - disable type checking (tests excluded from tsconfig.json)
+  // Test files - relax some rules
   {
     files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', 'tests/**/*.{ts,tsx}'],
-    ...tseslint.configs.disableTypeChecked,
     rules: {
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-non-null-assertion': 'off',
