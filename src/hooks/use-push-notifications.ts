@@ -59,8 +59,12 @@ export function usePushNotifications(): UsePushNotificationsResult {
 
   useEffect(() => {
     async function checkStatus() {
-      const ios = detectIsIOS();
-      const pwa = detectIsPWA();
+      // ?debug=ios forces the ios-needs-install state for testing on desktop
+      const debugParam = new URLSearchParams(window.location.search).get('debug');
+      const forceIOS = debugParam === 'ios';
+
+      const ios = forceIOS || detectIsIOS();
+      const pwa = forceIOS ? false : detectIsPWA();
       setIsIOS(ios);
       setIsPWA(pwa);
 
