@@ -1,19 +1,9 @@
 // @ts-check
 import eslint from '@eslint/js';
+import nextConfig from 'eslint-config-next/core-web-vitals';
 import tseslint from 'typescript-eslint';
-import { FlatCompat } from "@eslint/eslintrc";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// For Next.js compatibility
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-export default tseslint.config(
+export default [
   // Ignore patterns
   {
     ignores: [
@@ -33,8 +23,8 @@ export default tseslint.config(
   // Base ESLint recommended rules
   eslint.configs.recommended,
 
-  // Next.js specific rules (using compat for now)
-  ...compat.extends("next/core-web-vitals"),
+  // Next.js core-web-vitals rules (flat config array)
+  ...nextConfig,
 
   // TypeScript strict rules with type checking
   ...tseslint.configs.strictTypeChecked,
@@ -68,16 +58,16 @@ export default tseslint.config(
       // Allow certain patterns
       '@typescript-eslint/no-non-null-assertion': 'warn',
       '@typescript-eslint/no-empty-function': 'warn',
-      
+
       // Relax overly strict stylistic rules for React/Next.js
-      '@typescript-eslint/restrict-template-expressions': 'off', // Allow any type in template literals
-      '@typescript-eslint/no-confusing-void-expression': 'off', // Common in React event handlers
-      '@typescript-eslint/no-deprecated': 'warn', // Warn instead of error for deprecated APIs
-      '@typescript-eslint/unbound-method': 'off', // Often false positives with React
+      '@typescript-eslint/restrict-template-expressions': 'off',
+      '@typescript-eslint/no-confusing-void-expression': 'off',
+      '@typescript-eslint/no-deprecated': 'warn',
+      '@typescript-eslint/unbound-method': 'off',
 
       // React Hooks
       'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn', // Warn instead of error - sometimes deps are intentionally omitted
+      'react-hooks/exhaustive-deps': 'warn',
 
       // General best practices
       'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
@@ -110,4 +100,4 @@ export default tseslint.config(
       'no-console': 'off',
     },
   },
-);
+];
