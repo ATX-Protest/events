@@ -78,6 +78,10 @@ export function ProtestCard({ protest }: ProtestCardProps) {
           <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />
           <span className="line-clamp-1">{protest.location.name}</span>
         </div>
+        <div className="flex items-center gap-2 text-muted-foreground" data-testid={`protest-organizer-${protest.id}`}>
+          <Users className="h-4 w-4 shrink-0" aria-hidden="true" />
+          <span className="line-clamp-1">{protest.organizer}</span>
+        </div>
         {protest.expectedAttendance && (
           <div className="flex items-center gap-2 text-muted-foreground">
             <Users className="h-4 w-4 shrink-0" aria-hidden="true" />
