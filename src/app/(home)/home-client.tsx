@@ -20,6 +20,7 @@ import {
   Filter,
   MapPin,
   Megaphone,
+  Users,
   X,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -453,6 +454,10 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
                           <span className="flex items-center gap-1.5" data-testid={`event-location-${protest.slug}`}>
                             <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
                             <span className="truncate max-w-[200px]">{protest.locationName}</span>
+                          </span>
+                          <span className="flex items-center gap-1.5" data-testid={`event-organizer-${protest.slug}`}>
+                            <Users className="h-3.5 w-3.5" aria-hidden="true" />
+                            <span className="truncate max-w-[200px]">{protest.organizer}</span>
                           </span>
                         </div>
 
