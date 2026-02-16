@@ -2,6 +2,9 @@
  * Simple markdown to HTML converter for event descriptions.
  * Supports: newlines, headers, bold, italic, strikethrough, and links.
  * Escapes HTML to prevent XSS.
+ *
+ * Also exports `inlineMarkdownToHtml` for preview contexts (event cards)
+ * where only inline text styling is needed without block-level elements.
  */
 
 // Escape HTML entities to prevent XSS
@@ -106,6 +109,48 @@ export function simpleMarkdownToHtml(text: string): string {
     })
     .filter(Boolean)
     .join('\n');
+
+  return html;
+}
+
+/**
+ * Convert markdown to inline HTML for preview contexts (e.g. event cards).
+ * Headers become <strong>, supports bold/italic/strikethrough/underline.
+ * Strips links (keeps link text), removes bullets/lists, collapses newlines.
+ */
+export function inlineMarkdownToHtml(text: string): string {
+  let html = escapeHtml(text);
+
+  // Headers → strong (strip the # prefix, keep the text as bold)
+  html = html.replace(/^#{1,3}\s+(.+)$/gm, '<strong>$1</strong>');
+
+  // Strip link syntax, keep the link text: [text](url) → text
+  html = html.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+
+  // Strip bullet/list markers at start of lines: -, *, or 1.
+  html = html.replace(/^\s*[-*]\s+/gm, '');
+  html = html.replace(/^\s*\d+\.\s+/gm, '');
+
+  // Bold **text** or __text__
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/__([^_]+)__/g, '<strong>$1</strong>');
+
+  // Italic *text* or _text_
+  html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  html = html.replace(/(?<!\w)_([^_]+)_(?!\w)/g, '<em>$1</em>');
+
+  // Strikethrough ~~text~~
+  html = html.replace(/~~([^~]+)~~/g, '<del>$1</del>');
+
+  // Underline (HTML-style since markdown has no standard underline)
+  // Support ++text++ as a common underline convention
+  html = html.replace(/\+\+([^+]+)\+\+/g, '<u>$1</u>');
+
+  // Collapse newlines into spaces and trim
+  html = html.replace(/\n+/g, ' ').trim();
+
+  // Collapse multiple spaces
+  html = html.replace(/\s{2,}/g, ' ');
 
   return html;
 }

@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { Protest } from '@/db/schema';
 import { CATEGORY_LABELS, PROTEST_CATEGORIES, type ProtestCategory } from '@/lib/categories';
+import { inlineMarkdownToHtml } from '@/lib/markdown';
 import { protestToShareable } from '@/lib/share';
 import { usePushNotifications } from '@/hooks/use-push-notifications';
 import {
@@ -461,9 +462,11 @@ export function HomePageClient({ initialProtests }: HomePageClientProps) {
                           </span>
                         </div>
 
-                        <p className="mt-2 text-sm text-muted-foreground line-clamp-2" data-testid={`event-description-${protest.slug}`}>
-                          {protest.description}
-                        </p>
+                        <p
+                          className="mt-2 text-sm text-muted-foreground line-clamp-2"
+                          data-testid={`event-description-${protest.slug}`}
+                          dangerouslySetInnerHTML={{ __html: inlineMarkdownToHtml(protest.description) }}
+                        />
                       </div>
                     </div>
                   </CardContent>
