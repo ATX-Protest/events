@@ -95,7 +95,7 @@ export default function GetAlertsPage() {
                     <BellOff className="h-5 w-5 shrink-0 mt-0.5" aria-hidden="true" />
                     <p className="text-sm">
                       Your browser doesn&apos;t support push notifications. Try Chrome, Firefox,
-                      or Edge{isIOS ? ', or install this app on your iPhone' : ''}.
+                      or Edge{isIOS ? ', or add this site to your home screen from Safari' : ''}.
                     </p>
                   </div>
                 ) : state === 'ios-needs-install' ? (
@@ -103,18 +103,19 @@ export default function GetAlertsPage() {
                     <div className="flex items-start gap-3 p-4 rounded-lg bg-blue-500/10 text-blue-700 dark:text-blue-400">
                       <Smartphone className="h-5 w-5 shrink-0 mt-0.5" aria-hidden="true" />
                       <div className="space-y-1">
-                        <p className="font-medium">Install App for Notifications</p>
+                        <p className="font-medium">Add to Your Home Screen for Notifications</p>
                         <p className="text-sm opacity-90">
-                          On iPhone/iPad, install this site as an app first:
+                          Add a tile to your home screen to enable notifications:
                         </p>
                       </div>
                     </div>
                     <ol className="space-y-2 text-sm text-muted-foreground" data-testid="ios-install-steps">
                       {[
-                        'Tap the Share button in Safari',
-                        'Tap "Add to Home Screen"',
+                        'Tap the Share button (square with arrow) in Safari',
+                        'Scroll down and tap "Add to Home Screen"',
                         'Tap "Add" in the top right',
-                        'Open the app, then return here',
+                        'Open the app from your home screen',
+                        'Navigate back to this page and tap "Enable Push Notifications"',
                       ].map((step, i) => (
                         <li key={i} className="flex items-start gap-2" data-testid={`ios-install-step-${i + 1}`}>
                           <span className="flex items-center justify-center h-5 w-5 rounded-full bg-primary/10 text-primary text-xs font-medium shrink-0">
@@ -124,6 +125,9 @@ export default function GetAlertsPage() {
                         </li>
                       ))}
                     </ol>
+                    <p className="text-xs text-muted-foreground/70 mt-1">
+                      If the page doesn&apos;t update after opening the app, pull down to refresh.
+                    </p>
                   </div>
                 ) : state === 'subscribed' ? (
                   <div className="space-y-4" data-testid="push-state-subscribed">
